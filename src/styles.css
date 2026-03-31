@@ -1,0 +1,274 @@
+:root {
+  color-scheme: light;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: #17313c;
+  background:
+    radial-gradient(circle at top left, rgba(244, 162, 97, 0.35), transparent 28%),
+    radial-gradient(circle at top right, rgba(42, 157, 143, 0.2), transparent 32%),
+    linear-gradient(180deg, #f4ede2 0%, #e9f1ef 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.shell {
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 16px 18px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font: 600 0.82rem "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7f5539;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+
+.lede {
+  max-width: 60ch;
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  color: rgba(23, 49, 60, 0.78);
+}
+
+.hero-badge {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.hero-badge span,
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(23, 49, 60, 0.12);
+  font: 500 0.84rem "IBM Plex Mono", monospace;
+}
+
+.chip-live {
+  background: rgba(42, 157, 143, 0.18);
+  border-color: rgba(42, 157, 143, 0.42);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 320px minmax(480px, 1.25fr) minmax(420px, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 14px;
+  min-height: 0;
+}
+
+.left-column,
+.center-column,
+.right-column {
+  display: grid;
+  min-height: 0;
+}
+
+.right-column {
+  grid-template-rows: minmax(0, 1fr) minmax(220px, auto);
+  gap: 14px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(23, 49, 60, 0.1);
+  border-radius: 24px;
+  padding: 14px;
+  box-shadow: 0 20px 48px rgba(23, 49, 60, 0.08);
+  backdrop-filter: blur(10px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-row {
+  display: flex;
+  gap: 8px;
+}
+
+.canvas-toggles {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.84rem;
+}
+
+.canvas-toggles label {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(23, 49, 60, 0.06);
+}
+
+#simulation-canvas,
+#graph-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 18px;
+}
+
+.canvas-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.graph-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.control-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.control-grid label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.86rem;
+}
+
+input[type="range"],
+select {
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #17313c;
+  color: #f8f1e7;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #264653;
+}
+
+.data-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.data-panel th,
+.data-panel td {
+  padding: 5px 7px;
+  border-bottom: 1px solid rgba(23, 49, 60, 0.08);
+  text-align: left;
+}
+
+.data-panel th {
+  font: 600 0.68rem "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+}
+
+.caption {
+  color: rgba(23, 49, 60, 0.72);
+  font-size: 0.82rem;
+}
+
+.graph-scale-control {
+  display: grid;
+  gap: 4px;
+  font-size: 0.8rem;
+  min-width: 140px;
+}
+
+.controls-panel,
+.data-panel {
+  overflow: auto;
+}
+
+@media (max-width: 1180px) {
+  .shell {
+    min-height: auto;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+
+  #simulation-canvas,
+  #graph-canvas {
+    height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    padding: 14px;
+  }
+}
