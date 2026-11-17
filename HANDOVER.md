@@ -79,3 +79,9 @@ The shared graph overlays angle, angular velocity, mechanical energy, phase spac
 Validation: 18 physics/data tests and 16 browser tests passed, including synchronization, controlled mass/length comparisons, CSV, shared links, invalid-input handling and four-pendulum mobile layout. After mobile graph refinements, all three comparison browser tests passed again.
 
 Publishing fork: https://github.com/ishwrknt/2D-Nonlinear-Simple-Pendulum-Simulation . Earlier sequential-quiz commit 669772f was pushed. First Pages run failed because ubuntu-latest resolved to unsupported Ubuntu 26.04 for pinned Playwright. Both CI workflows now use ubuntu-24.04. Comparison implementation and runner fix are being pushed together; final deployment still requires confirmation from Actions and the live site.
+
+## Deployment verified — 2026-11-17
+Published application commit 39e3bc78318236afd805b86189252e6778cea11e to main on ishwrknt/2D-Nonlinear-Simple-Pendulum-Simulation. GitHub Actions run 44099865765 succeeded (build, 18 physics/data tests, 16 browser tests, 70 independent reference cases, Pages deployment). Live home returned HTTP 200. Live-browser smoke test opened comparison from the home link, added two pendulums (three total), independently changed pendulum 2 length, stepped all to 0.004 s, and verified differing angular velocities with synchronized times. Quiz header confirms 16 questions in order, starting with Part One. No browser errors. Screenshot: validation/comparison-live.png.
+Website: https://ishwrknt.github.io/2D-Nonlinear-Simple-Pendulum-Simulation/
+Comparison: https://ishwrknt.github.io/2D-Nonlinear-Simple-Pendulum-Simulation/compare.html
+Original sastriosks repository and website were not modified. This documentation-only verification commit skips CI; the deployed application remains the tested 39e3bc7 build.
