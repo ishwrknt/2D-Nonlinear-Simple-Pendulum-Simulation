@@ -1,0 +1,39 @@
+{
+  "node": "v24.14.0",
+  "platform": "linux",
+  "architecture": "x64",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12650H",
+  "results": [
+    {
+      "mode": "angular",
+      "steps_per_trial": 50000,
+      "warmup_trials": 2,
+      "measured_trials": 5,
+      "elapsed_ms": [
+        164.972264,
+        144.53907500000003,
+        125.76990999999998,
+        111.24894000000018,
+        108.18297499999994
+      ],
+      "median_ms": 125.76990999999998,
+      "median_us_per_step": 2.5153981999999995
+    },
+    {
+      "mode": "cartesian",
+      "steps_per_trial": 50000,
+      "warmup_trials": 2,
+      "measured_trials": 5,
+      "elapsed_ms": [
+        154.913413,
+        156.029274,
+        177.21831199999997,
+        179.34312799999998,
+        200.40615900000012
+      ],
+      "median_ms": 177.21831199999997,
+      "median_us_per_step": 3.5443662399999996
+    }
+  ],
+  "note": "Node engine-only throughput, no rendering or browser overhead. Machine-specific, not an animation FPS claim."
+}

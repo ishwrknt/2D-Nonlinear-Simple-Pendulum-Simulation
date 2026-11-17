@@ -1,0 +1,2 @@
+# SMART roles and provenance
+Drishti: requirements and actual source evidence. Bodhi: knowledge/gaps. Tarka: falsifiable accuracy hypothesis. Yukti: method and diagnosis. Karma: implementation. Satya: analytical/reference/browser validation. Siddhi: evidence and measured completion records. These are sequential roles in this coding assistant, not independently spawned agents. Earlier non-SMART draft is preserved in Git stash; any reused draft is explicitly identified and freshly checked. No retrospective claim that SMART produced the original simulation.

@@ -10,3 +10,12 @@ design-artifacts/
 docx/
 
 .DS_Store
+
+# Reproducible large run data and local release archives
+validation/runs.json
+release/
+
+validation/fluid-runs.json
+
+# Installed development framework (not application source)
+SMART/

@@ -1,17 +1,23 @@
 {
   "name": "pendulum-animation-codex",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:physics": "node --test tests/physics.test.mjs",
+    "validate:physics": "node validation/run.mjs && python validation/check.py && node validation/fluid-run.mjs && python validation/fluid-check.py",
+    "test": "npm run test:physics && npm run build && npm run test:e2e"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
     "typescript": "^5.9.3",
     "vite": "^7.1.5"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

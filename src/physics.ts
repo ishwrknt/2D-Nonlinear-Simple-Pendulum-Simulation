@@ -1,223 +1,353 @@
-import type { DerivedMetrics, Parameters, PendulumState, SimulationMode } from "./types";
+import { effectiveGravity, fluidResistance } from "./fluid.ts";
+import type {
+  DerivedMetrics,
+  Parameters,
+  PendulumState,
+  SimulationMode,
+} from "./types";
 
-const TAU = Math.PI * 2;
-
-function normalizeAngle(theta: number): number {
-  let value = theta;
-  while (value > Math.PI) {
-    value -= TAU;
-  }
-  while (value < -Math.PI) {
-    value += TAU;
-  }
-  return value;
+export const ENGINE_VERSION = "0.3.0";
+const TAU = 2 * Math.PI;
+export function principalAngle(theta: number): number {
+  return Math.atan2(Math.sin(theta), Math.cos(theta));
 }
-
-function angularAcceleration(theta: number, omega: number, time: number, params: Parameters): number {
-  const inertia = params.mass * params.length * params.length;
-  const restoring = -(params.gravity / params.length) * Math.sin(theta);
-  const linear = -(params.linearDamping / inertia) * omega;
-  const quadratic = -(params.quadraticDamping / inertia) * omega * Math.abs(omega);
-  const drive = (params.driveAmplitude / inertia) * Math.sin(params.driveOmega * time);
-  return restoring + linear + quadratic + drive;
-}
-
-function stateFromAngular(theta: number, omega: number, time: number, params: Parameters, maxAngle: number): PendulumState {
-  const x = params.length * Math.sin(theta);
-  const y = params.length * Math.cos(theta);
-  const tangentX = Math.cos(theta);
-  const tangentY = -Math.sin(theta);
-  const speed = params.length * omega;
-  const vx = tangentX * speed;
-  const vy = tangentY * speed;
-  const alpha = angularAcceleration(theta, omega, time, params);
-  const kineticEnergy = 0.5 * params.mass * params.length * params.length * omega * omega;
-  const potentialEnergy = params.mass * params.gravity * params.length * (1 - Math.cos(theta));
-  return {
-    time,
-    theta,
-    omega,
-    alpha,
-    x,
-    y,
-    vx,
-    vy,
-    kineticEnergy,
-    potentialEnergy,
-    totalEnergy: kineticEnergy + potentialEnergy,
-    maxAngle,
-  };
-}
-
-function stateFromCartesian(
-  x: number,
-  y: number,
-  vx: number,
-  vy: number,
+export function angularAcceleration(
+  theta: number,
+  omega: number,
   time: number,
-  params: Parameters,
-  maxAngle: number,
-): PendulumState {
-  const theta = normalizeAngle(Math.atan2(x, y));
-  const omega = (x * vy - y * vx) / (params.length * params.length);
-  const alpha = angularAcceleration(theta, omega, time, params);
-  const kineticEnergy = 0.5 * params.mass * (vx * vx + vy * vy);
-  const potentialEnergy = params.mass * params.gravity * params.length * (1 - Math.cos(theta));
-  return {
-    time,
-    theta,
-    omega,
-    alpha,
-    x,
-    y,
-    vx,
-    vy,
-    kineticEnergy,
-    potentialEnergy,
-    totalEnergy: kineticEnergy + potentialEnergy,
-    maxAngle,
-  };
+  p: Parameters,
+): number {
+  return (
+    (-effectiveGravity(p) / p.length) * Math.sin(theta) +
+    torque(omega, time, p) / (p.mass * p.length ** 2)
+  );
+}
+function torque(omega: number, time: number, p: Parameters): number {
+  return (
+    -p.linearDamping * omega -
+    fluidResistance(p, omega) * omega -
+    p.quadraticDamping * omega * Math.abs(omega) +
+    p.driveAmplitude * Math.sin(p.driveOmega * time)
+  );
+}
+function power(omega: number, time: number, p: Parameters): [number, number] {
+  return [
+    p.driveAmplitude * Math.sin(p.driveOmega * time) * omega,
+    (p.linearDamping + fluidResistance(p, omega)) * omega ** 2 +
+      p.quadraticDamping * Math.abs(omega) ** 3,
+  ];
+}
+function validate(p: Parameters): void {
+  if (
+    !Number.isFinite(p.fluidDensity ?? 0) ||
+    (p.fluidDensity ?? 0) < 0 ||
+    !Number.isFinite(p.fluidViscosity ?? 0.001) ||
+    (p.fluidViscosity ?? 0.001) <= 0 ||
+    !Number.isFinite(p.bobRadius ?? 0.025) ||
+    (p.bobRadius ?? 0.025) <= 0
+  )
+    throw Error(
+      "Use nonnegative fluid density and positive viscosity and bob radius.",
+    );
+  const required: (keyof Parameters)[] = [
+    "mass",
+    "length",
+    "gravity",
+    "linearDamping",
+    "quadraticDamping",
+    "driveAmplitude",
+    "driveOmega",
+    "dt",
+    "initialAngle",
+  ];
+  for (const name of required)
+    if (!Number.isFinite(p[name])) throw new Error(`${name} must be finite.`);
+  if (p.initialOmega !== undefined && !Number.isFinite(p.initialOmega))
+    throw new Error("initialOmega must be finite.");
+  if (p.mass <= 0 || p.length <= 0 || p.gravity < 0 || p.dt <= 0 || p.dt > 0.1)
+    throw new Error(
+      "Use positive mass/length, nonnegative gravity and a time step in (0, 0.1] s.",
+    );
+  if (
+    p.linearDamping < 0 ||
+    p.quadraticDamping < 0 ||
+    p.driveAmplitude < 0 ||
+    p.driveOmega < 0
+  )
+    throw new Error("Damping and drive settings must be nonnegative.");
+}
+/** Period for a conservative oscillation released from rest. AGM uses elliptic modulus sin(theta/2). */
+export function exactReleasePeriod(
+  angle: number,
+  length: number,
+  gravity: number,
+): number | null {
+  if (gravity <= 0 || Math.abs(angle) >= Math.PI || Math.abs(angle) < 1e-10)
+    return null;
+  let a = 1,
+    b = Math.cos(Math.abs(angle) / 2);
+  for (let i = 0; i < 30; i++) {
+    const next = (a + b) / 2;
+    b = Math.sqrt(a * b);
+    a = next;
+    if (Math.abs(a - b) < 1e-15) break;
+  }
+  return (TAU * Math.sqrt(length / gravity)) / a;
+}
+function rk4(
+  y: number[],
+  t: number,
+  h: number,
+  f: (v: number[], t: number) => number[],
+): number[] {
+  const k1 = f(y, t);
+  const k2 = f(
+    y.map((v, i) => v + (h * k1[i]) / 2),
+    t + h / 2,
+  );
+  const k3 = f(
+    y.map((v, i) => v + (h * k2[i]) / 2),
+    t + h / 2,
+  );
+  const k4 = f(
+    y.map((v, i) => v + h * k3[i]),
+    t + h,
+  );
+  return y.map((v, i) => v + (h * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i])) / 6);
 }
 
 export class PendulumEngine {
   private mode: SimulationMode = "angular";
-  private state: PendulumState;
   private params: Parameters;
-  private maxAngle = 0;
+  private state!: PendulumState;
   private initialEnergy = 0;
   private minEnergy = 0;
   private maxEnergy = 0;
-  private lastTheta = 0;
-  private readonly positiveCrossings: number[] = [];
-
+  private releaseAngle = 0;
+  private releaseOmega = 0;
+  private crossedTop = false;
+  private crossings: number[] = [];
+  private count = 0;
   constructor(params: Parameters) {
-    this.params = params;
-    this.state = this.createInitialState();
-    this.seedDerivedTrackers();
+    validate(params);
+    this.params = { ...params };
+    this.reset();
   }
-
   setMode(mode: SimulationMode): void {
+    if (mode !== "angular" && mode !== "cartesian")
+      throw new Error("Unknown simulation mode.");
     this.mode = mode;
     this.reset();
   }
-
   setParameters(params: Parameters): void {
-    this.params = params;
+    validate(params);
+    this.params = { ...params };
     this.reset();
   }
-
   getParameters(): Parameters {
-    return this.params;
+    return { ...this.params };
   }
-
   getMode(): SimulationMode {
     return this.mode;
   }
-
   getState(): PendulumState {
-    return this.state;
+    return { ...this.state };
   }
-
   reset(): PendulumState {
-    this.state = this.createInitialState();
-    this.seedDerivedTrackers();
-    return this.state;
+    return this.start(this.params.initialAngle, this.params.initialOmega ?? 0);
   }
-
   overrideFromDrag(theta: number): PendulumState {
-    const normalized = normalizeAngle(theta);
-    this.maxAngle = Math.abs(normalized);
-    this.state = stateFromAngular(normalized, 0, 0, this.params, this.maxAngle);
-    this.seedDerivedTrackers();
-    return this.state;
+    if (!Number.isFinite(theta)) throw new Error("Angle must be finite.");
+    this.params.initialAngle = principalAngle(theta);
+    this.params.initialOmega = 0;
+    return this.start(this.params.initialAngle, 0);
   }
-
-  step(): PendulumState {
-    const dt = this.params.dt;
-    this.state = this.mode === "angular" ? this.stepAngular(dt) : this.stepCartesian(dt);
-    this.maxAngle = Math.max(this.maxAngle, Math.abs(this.state.theta));
-    this.state.maxAngle = this.maxAngle;
-    this.trackDerivedSeries();
-    return this.state;
+  private start(theta: number, omega: number): PendulumState {
+    this.releaseAngle = theta;
+    this.releaseOmega = omega;
+    this.count = 0;
+    this.crossings = [];
+    this.crossedTop = Math.abs(theta) >= Math.PI;
+    this.state = this.makeState(theta, omega, 0, 0, 0, Math.abs(theta));
+    if (!Object.values(this.state).every(Number.isFinite))
+      throw Error(
+        "These values exceed numerical precision; use less extreme settings.",
+      );
+    this.initialEnergy = this.state.totalEnergy;
+    this.minEnergy = this.maxEnergy = this.initialEnergy;
+    return this.getState();
   }
-
-  getDerivedMetrics(): DerivedMetrics {
-    const naturalFrequency = Math.sqrt(this.params.gravity / this.params.length);
-    const theoreticalPeriod = TAU * Math.sqrt(this.params.length / this.params.gravity);
-    const baseline = Math.max(Math.abs(this.initialEnergy), 1e-9);
-    const energyDriftPercent = ((this.maxEnergy - this.minEnergy) / baseline) * 100;
-    let estimatedPeriod: number | null = null;
-    if (this.positiveCrossings.length >= 2) {
-      const periods: number[] = [];
-      for (let i = Math.max(1, this.positiveCrossings.length - 3); i < this.positiveCrossings.length; i += 1) {
-        periods.push(this.positiveCrossings[i] - this.positiveCrossings[i - 1]);
-      }
-      estimatedPeriod = periods.reduce((sum, value) => sum + value, 0) / periods.length;
-    }
+  private makeState(
+    theta: number,
+    omega: number,
+    time: number,
+    driveWork: number,
+    dissipatedEnergy: number,
+    maxAngle: number,
+  ): PendulumState {
+    const p = this.params,
+      L = p.length;
+    const kineticEnergy = 0.5 * p.mass * L ** 2 * omega ** 2;
+    const potentialEnergy =
+      p.mass * effectiveGravity(p) * L * (1 - Math.cos(theta));
     return {
-      maxAngleReached: this.maxAngle,
-      estimatedPeriod,
-      naturalFrequency,
-      theoreticalPeriod,
-      energyDriftPercent,
+      time,
+      theta,
+      omega,
+      alpha: angularAcceleration(theta, omega, time, p),
+      x: L * Math.sin(theta),
+      y: L * Math.cos(theta),
+      vx: L * omega * Math.cos(theta),
+      vy: -L * omega * Math.sin(theta),
+      kineticEnergy,
+      potentialEnergy,
+      totalEnergy: kineticEnergy + potentialEnergy,
+      maxAngle,
+      driveWork,
+      dissipatedEnergy,
     };
   }
-
-  private createInitialState(): PendulumState {
-    const theta = this.params.initialAngle;
-    this.maxAngle = Math.abs(theta);
-    return stateFromAngular(theta, 0, 0, this.params, this.maxAngle);
-  }
-
-  private seedDerivedTrackers(): void {
-    this.initialEnergy = this.state.totalEnergy;
-    this.minEnergy = this.state.totalEnergy;
-    this.maxEnergy = this.state.totalEnergy;
-    this.lastTheta = this.state.theta;
-    this.positiveCrossings.length = 0;
-  }
-
-  private trackDerivedSeries(): void {
-    this.minEnergy = Math.min(this.minEnergy, this.state.totalEnergy);
-    this.maxEnergy = Math.max(this.maxEnergy, this.state.totalEnergy);
-    if (this.lastTheta < 0 && this.state.theta >= 0 && this.state.omega > 0) {
-      this.positiveCrossings.push(this.state.time);
-      if (this.positiveCrossings.length > 4) {
-        this.positiveCrossings.shift();
+  step(): PendulumState {
+    const p = this.params,
+      old = this.state;
+    const inertia = p.mass * p.length ** 2;
+    const rate = Math.max(
+      Math.sqrt(Math.abs(effectiveGravity(p)) / p.length),
+      Math.abs(old.omega),
+      (p.linearDamping +
+        2 * p.quadraticDamping * Math.abs(old.omega) +
+        2 * fluidResistance(p, old.omega)) /
+        inertia,
+      Math.sqrt(p.driveAmplitude / inertia),
+      p.driveAmplitude > 0 ? p.driveOmega : 0,
+    );
+    // Deterministic subdivision bounds angular travel and explicit-damping stiffness.
+    const n = Math.max(1, Math.ceil((p.dt * rate) / 0.15));
+    if (!Number.isFinite(n) || n > 1000)
+      throw new Error(
+        "Parameters require too many internal steps; reduce the time step or forcing.",
+      );
+    let s = old;
+    for (let j = 0; j < n; j++) {
+      const h = p.dt / n,
+        t = old.time + j * h;
+      let theta: number, omega: number, wd: number, loss: number;
+      if (this.mode === "angular") {
+        [theta, omega, wd, loss] = rk4(
+          [s.theta, s.omega, s.driveWork, s.dissipatedEnergy],
+          t,
+          h,
+          (v, time) => [
+            v[1],
+            angularAcceleration(v[0], v[1], time, p),
+            ...power(v[1], time, p),
+          ],
+        );
+      } else {
+        const v = rk4(
+          [s.x, s.y, s.vx, s.vy, s.driveWork, s.dissipatedEnergy],
+          t,
+          h,
+          (v, time) => {
+            const [x, y, vx, vy] = v,
+              r2 = x * x + y * y,
+              r = Math.sqrt(r2);
+            const w = (y * vx - x * vy) / r2;
+            const lambda = (effectiveGravity(p) * y + vx * vx + vy * vy) / r2;
+            const tangentialAcceleration =
+              torque(w, time, p) / (p.mass * p.length);
+            return [
+              vx,
+              vy,
+              -lambda * x + (tangentialAcceleration * y) / r,
+              effectiveGravity(p) -
+                lambda * y -
+                (tangentialAcceleration * x) / r,
+              ...power(w, time, p),
+            ];
+          },
+        );
+        const r = Math.hypot(v[0], v[1]),
+          x = (v[0] * p.length) / r,
+          y = (v[1] * p.length) / r;
+        const radial = (x * v[2] + y * v[3]) / p.length ** 2;
+        const vx = v[2] - radial * x,
+          vy = v[3] - radial * y;
+        theta =
+          s.theta + principalAngle(Math.atan2(x, y) - principalAngle(s.theta));
+        omega = (y * vx - x * vy) / p.length ** 2;
+        wd = v[4];
+        loss = v[5];
       }
+      if (![theta, omega, wd, loss].every(Number.isFinite))
+        throw new Error("Numerical overflow; reset and use milder parameters.");
+      const next = this.makeState(
+        theta,
+        omega,
+        t + h,
+        wd,
+        loss,
+        Math.max(s.maxAngle, Math.abs(theta)),
+      );
+      if (Math.abs(theta) >= Math.PI) {
+        this.crossedTop = true;
+        this.crossings = [];
+      }
+      if (!this.crossedTop && s.theta < 0 && theta >= 0 && omega > 0) {
+        this.crossings.push(t + (h * -s.theta) / (theta - s.theta));
+        if (this.crossings.length > 4) this.crossings.shift();
+      }
+      this.minEnergy = Math.min(this.minEnergy, next.totalEnergy);
+      this.maxEnergy = Math.max(this.maxEnergy, next.totalEnergy);
+      s = next;
     }
-    this.lastTheta = this.state.theta;
+    s.time = ++this.count * p.dt;
+    this.state = s;
+    return this.getState();
   }
-
-  private stepAngular(dt: number): PendulumState {
-    const previous = this.state;
-    const alpha0 = angularAcceleration(previous.theta, previous.omega, previous.time, this.params);
-    const omegaHalf = previous.omega + 0.5 * alpha0 * dt;
-    const theta = normalizeAngle(previous.theta + omegaHalf * dt);
-    const nextTime = previous.time + dt;
-    const alpha1 = angularAcceleration(theta, omegaHalf, nextTime, this.params);
-    const omega = omegaHalf + 0.5 * alpha1 * dt;
-    return stateFromAngular(theta, omega, nextTime, this.params, this.maxAngle);
-  }
-
-  private stepCartesian(dt: number): PendulumState {
-    const previous = this.state;
-    const gravityY = this.params.gravity;
-    let x = previous.x + previous.vx * dt;
-    let y = previous.y + previous.vy * dt + 0.5 * gravityY * dt * dt;
-    let vx = previous.vx;
-    let vy = previous.vy + gravityY * dt;
-
-    const radius = Math.hypot(x, y) || this.params.length;
-    const scale = this.params.length / radius;
-    x *= scale;
-    y *= scale;
-
-    const radialVelocity = (x * vx + y * vy) / (this.params.length * this.params.length);
-    vx -= radialVelocity * x;
-    vy -= radialVelocity * y;
-
-    const nextTime = previous.time + dt;
-    return stateFromCartesian(x, y, vx, vy, nextTime, this.params, this.maxAngle);
+  getDerivedMetrics(): DerivedMetrics {
+    const p = this.params,
+      s = this.state;
+    const conservative =
+      p.linearDamping === 0 &&
+      p.quadraticDamping === 0 &&
+      p.driveAmplitude === 0 &&
+      (p.fluidDensity ?? 0) === 0;
+    const baseline = Math.max(
+      Math.abs(this.initialEnergy),
+      p.mass * p.gravity * p.length * 1e-12,
+      1e-12,
+    );
+    const period =
+      this.crossings.length > 1
+        ? (this.crossings.at(-1)! - this.crossings[0]) /
+          (this.crossings.length - 1)
+        : null;
+    return {
+      maxAngleReached: s.maxAngle,
+      estimatedPeriod: this.crossedTop ? null : period,
+      naturalFrequency: Math.sqrt(Math.max(0, effectiveGravity(p)) / p.length),
+      theoreticalPeriod:
+        effectiveGravity(p) > 0
+          ? TAU * Math.sqrt(p.length / effectiveGravity(p))
+          : Infinity,
+      exactPeriod:
+        conservative && this.releaseOmega === 0
+          ? exactReleasePeriod(this.releaseAngle, p.length, effectiveGravity(p))
+          : null,
+      energyDriftPercent: ((this.maxEnergy - this.minEnergy) / baseline) * 100,
+      energyBalanceError:
+        s.totalEnergy - this.initialEnergy - s.driveWork + s.dissipatedEnergy,
+      energyBalancePercent:
+        ((s.totalEnergy -
+          this.initialEnergy -
+          s.driveWork +
+          s.dissipatedEnergy) /
+          baseline) *
+        100,
+      initialEnergy: this.initialEnergy,
+      conservative,
+      hasRotated: this.crossedTop,
+    };
   }
 }

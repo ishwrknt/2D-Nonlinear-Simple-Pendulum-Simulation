@@ -1,0 +1,399 @@
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #203c32;
+  background: #f0f3ed;
+  font-synthesis: none;
+  line-height: 1.5;
+  font-weight: 400;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+header,
+main,
+footer {
+  max-width: 1540px;
+  margin: auto;
+  padding: 24px 32px;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 36px;
+}
+h1 {
+  font-family: Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 3.4vw, 3.5rem);
+  line-height: 1.1;
+  margin: 8px 0 14px;
+}
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 12px;
+}
+h3 {
+  font-size: 1rem;
+  margin: 18px 0 8px;
+}
+p {
+  margin: 8px 0 14px;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #536a5e;
+}
+.guide-link {
+  white-space: nowrap;
+}
+a {
+  color: #086d60;
+  text-underline-offset: 4px;
+}
+main {
+  padding-top: 0;
+}
+.investigation {
+  background: #dfebe3;
+  border: 1px solid #c7dacd;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: center;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(330px, 1.25fr) minmax(
+      350px,
+      1.25fr
+    );
+  align-items: start;
+  gap: 20px;
+}
+.card {
+  background: #fff;
+  border: 1px solid #d6e0d7;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 3px 12px #244f3710;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  border: 1px solid #b8cdc0;
+  border-radius: 7px;
+  background: #fff;
+  color: #224e3d;
+  min-height: 42px;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover {
+  background: #e4f2e9;
+  border-color: #648b74;
+}
+button.primary {
+  background: #087e70;
+  color: #fff;
+  border-color: #087e70;
+}
+button.primary:hover {
+  background: #075f55;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 3px solid #c87322;
+  outline-offset: 3px;
+}
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: block;
+}
+label span {
+  font-weight: 400;
+  color: #536a5e;
+}
+input:not([type="checkbox"]),
+select {
+  width: 100%;
+  border: 1px solid #adbdaf;
+  background: #fcfdfb;
+  color: #203c32;
+  border-radius: 6px;
+  min-height: 40px;
+  padding: 7px 10px;
+}
+input:invalid {
+  border-color: #b34a29;
+}
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 90px;
+  gap: 12px 8px;
+  align-items: center;
+  margin: 16px 0;
+}
+summary {
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 0;
+}
+details {
+  border-top: 1px solid #dbe5dd;
+  margin-top: 14px;
+}
+details label {
+  margin-top: 8px;
+}
+.hint {
+  font-size: 0.78rem;
+  color: #536a5e;
+  line-height: 1.55;
+}
+.full {
+  width: 100%;
+  margin: 20px 0 8px;
+}
+#share-link {
+  font-size: 0.75rem;
+}
+#notice {
+  font-size: 0.8rem;
+  color: #87501d;
+  min-height: 1.5em;
+}
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.badge {
+  font-size: 0.75rem;
+  background: #e7eee8;
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+.motion canvas,
+.analysis canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.motion canvas {
+  border-radius: 10px;
+  touch-action: none;
+}
+.transport {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 16px 0;
+}
+.transport select {
+  width: 75px;
+}
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.options label {
+  font-weight: 400;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+.graph-controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.8rem;
+}
+th,
+td {
+  padding: 8px 0;
+  border-bottom: 1px solid #e1e8e1;
+}
+th {
+  text-align: left;
+  font-weight: 400;
+}
+td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-left: 10px;
+}
+.model,
+#teacher-guide {
+  margin-top: 24px;
+}
+.equations {
+  background: #f0f5f0;
+  border-left: 3px solid #087e70;
+  padding: 10px 20px;
+  overflow-x: auto;
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+}
+.equations p {
+  white-space: nowrap;
+}
+.lessons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.lessons p {
+  font-size: 0.9rem;
+}
+footer {
+  font-size: 0.8rem;
+  padding-bottom: 36px;
+}
+footer p {
+  color: #536a5e;
+}
+@media (max-width: 1150px) {
+  .workspace {
+    grid-template-columns: 280px 1fr;
+  }
+  .analysis {
+    grid-column: 1/-1;
+  }
+  .analysis canvas {
+    max-width: 850px;
+    margin: auto;
+  }
+  .lessons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 700px) {
+  header,
+  main,
+  footer {
+    padding: 20px 14px;
+  }
+  header {
+    display: block;
+  }
+  .investigation {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 18px;
+  }
+  .controls {
+    order: 1;
+  }
+  .motion {
+    order: 0;
+  }
+  .analysis {
+    order: 2;
+    grid-column: auto;
+  }
+  .lessons {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .fields {
+    grid-template-columns: 1fr 110px;
+  }
+  h1 {
+    font-size: 2.4rem;
+  }
+  .guide-link {
+    display: inline-block;
+    margin-top: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+}
+@media print {
+  button,
+  .transport,
+  .options,
+  .controls,
+  footer {
+    display: none;
+  }
+  .workspace,
+  .lessons {
+    display: block;
+  }
+  .card {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+  .motion canvas {
+    max-width: 400px;
+  }
+  .analysis canvas {
+    max-width: 550px;
+  }
+  body {
+    background: #fff;
+  }
+}
+
+.fit-all-control {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#fluid-experiments {
+  margin-top: 24px;
+}

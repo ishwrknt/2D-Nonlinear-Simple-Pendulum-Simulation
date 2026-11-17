@@ -1,0 +1,2 @@
+# Project brief
+Improve the existing browser pendulum laboratory for physics students and teachers. Correct the equations and diagnostics, improve physical visualisation and data analysis, and provide independently reproducible evidence. Target contribution is physics education. Numerical accuracy alone does not demonstrate learning gains or guarantee publication. Preserve the original Git baseline and record corrections separately from original development.

@@ -13,6 +13,10 @@ export interface Parameters {
   driveOmega: number;
   dt: number;
   initialAngle: number;
+  initialOmega?: number;
+  fluidDensity?: number;
+  fluidViscosity?: number;
+  bobRadius?: number;
 }
 
 export interface PendulumState {
@@ -28,6 +32,8 @@ export interface PendulumState {
   potentialEnergy: number;
   totalEnergy: number;
   maxAngle: number;
+  driveWork: number;
+  dissipatedEnergy: number;
 }
 
 export interface DerivedMetrics {
@@ -36,6 +42,12 @@ export interface DerivedMetrics {
   naturalFrequency: number;
   theoreticalPeriod: number;
   energyDriftPercent: number;
+  exactPeriod: number | null;
+  energyBalanceError: number;
+  energyBalancePercent: number;
+  initialEnergy: number;
+  conservative: boolean;
+  hasRotated: boolean;
 }
 
 export interface Sample {

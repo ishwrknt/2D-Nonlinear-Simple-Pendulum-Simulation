@@ -1,0 +1,52 @@
+
+> pendulum-animation-codex@0.3.0 test:e2e
+> playwright test
+
+[2m[WebServer] [22m(node:64918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 8 workers
+
+(node:64949) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64983) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64957) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64977) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64983) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64949) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64957) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64977) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [chromium] › tests/app.spec.ts:74:1 › CSV preserves SI values, parameters and retained interval (2.9s)
+  ✓  6 [chromium] › tests/app.spec.ts:122:1 › dragging bob releases from rest and resets experiment (3.1s)
+  ✓  2 [chromium] › tests/app.spec.ts:109:1 › invalid input blocks playback and preset restores validity (3.7s)
+  ✓  1 [chromium] › tests/app.spec.ts:92:1 › shared settings round-trip and invalid settings safely fall back (3.8s)
+  ✓  3 [chromium] › tests/app.spec.ts:17:1 › starts paused; exactly one step, reset and playback (3.8s)
+  ✓  4 [chromium] › tests/app.spec.ts:32:1 › presets, units, numerical settings and physical data views (3.8s)
+  ✓  9 [chromium] › tests/app.spec.ts:197:1 › fluid investigations change density and viscosity independently and share correctly (1.0s)
+  ✓  5 [chromium] › tests/app.spec.ts:141:1 › responsive layout and no browser errors (4.4s)
+  ✓  8 [chromium] › tests/app.spec.ts:167:1 › fit checkbox preserves a full run beyond the former 40-second limit (14.3s)
+
+  9 passed (18.6s)

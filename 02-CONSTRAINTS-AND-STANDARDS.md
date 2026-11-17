@@ -1,0 +1,4 @@
+# Constraints and standards
+Retain TypeScript, Canvas and Vite; GitHub Pages relative paths. Work in writable /home/ishwar/pendulum-publication-update. Original shared volume is read-only and must not be repaired or modified. Use SI internally; display release angle in degrees with explicit conversion. y is positive down, theta positive towards right from down. No claim of symplectic integration for RK4. Bound browser history and document retained export interval. Generated evidence names version, baseline and runtime. User prefers continuous handover/context updates.
+
+User-approved scope amendment during review: replace rolling 10,000-state retention with full raw history and bounded extrema-preserving graph summaries. Fit-all becomes a default-checked checkbox; small conservative release is the default. Memory use grows with raw run length.

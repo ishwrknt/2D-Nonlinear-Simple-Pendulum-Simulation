@@ -1,0 +1,30 @@
+
+> pendulum-animation-codex@0.3.0 test:physics
+> node --test tests/physics.test.mjs
+
+✔ angular: rest and zero-gravity uniform rotation (8.486796ms)
+✔ angular: deterministic and defensive state copies (6.206402ms)
+✔ angular: positive theta initially accelerates left; damping dissipates; forcing acts (12.25793ms)
+✔ angular: angle is continuous through rotations; no false period (3.005779ms)
+✔ angular: dragging and reset agree (2.863664ms)
+✔ cartesian: rest and zero-gravity uniform rotation (6.081761ms)
+✔ cartesian: deterministic and defensive state copies (6.553542ms)
+✔ cartesian: positive theta initially accelerates left; damping dissipates; forcing acts (11.818044ms)
+✔ cartesian: angle is continuous through rotations; no false period (3.405595ms)
+✔ cartesian: dragging and reset agree (3.65787ms)
+✔ coordinate formulations agree over 40 s including all torques (30.985557ms)
+✔ invalid physical parameters fail early (0.349774ms)
+✔ exact period uses correct finite-amplitude assumptions (0.080916ms)
+✔ full history preserves long runs and summaries retain extrema (60.444174ms)
+✔ missing required parameters are rejected (0.122314ms)
+✔ fluid buoyancy, Stokes limit and drag direction have the expected analytical limits (0.728348ms)
+✔ quiz demonstrations support their mass, length, amplitude, neutral and damping answers (42.737764ms)
+✔ advanced explanations agree with simulated thresholds, decay, scaling and energy (73.046274ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 355.218745

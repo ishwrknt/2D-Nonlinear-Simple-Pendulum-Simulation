@@ -1,198 +1,258 @@
-import { expect, test } from "@playwright/test";
-
-async function numberFromRow(page: import("@playwright/test").Page, tableLocator: string, label: string): Promise<number> {
-  const row = page.locator(`${tableLocator} tr`).filter({ hasText: label }).first();
-  const valueColumnIndex = tableLocator.includes("instant-table") ? 2 : 1;
-  const valueText = (await row.locator("td").nth(valueColumnIndex).textContent()) ?? "";
-  const numeric = Number.parseFloat(valueText);
-  if (Number.isNaN(numeric)) {
-    throw new Error(`Could not parse numeric value for ${label}: ${valueText}`);
-  }
-  return numeric;
+import { test, expect, type Page } from "@playwright/test";
+async function value(page: Page, label: string) {
+  return Number(
+    await page
+      .locator("#live-data tr")
+      .filter({ hasText: label })
+      .locator("td")
+      .textContent(),
+  );
 }
-
-async function setRangeValue(page: import("@playwright/test").Page, selector: string, value: string): Promise<void> {
-  await page.locator(selector).evaluate((element, nextValue) => {
-    const input = element as HTMLInputElement;
-    input.value = nextValue;
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.dispatchEvent(new Event("change", { bubbles: true }));
-  }, value);
-}
-
-async function dragBob(page: import("@playwright/test").Page): Promise<void> {
-  const canvas = page.locator("#simulation-canvas");
-  const box = await canvas.boundingBox();
-  if (!box) {
-    throw new Error("Simulation canvas box unavailable.");
-  }
-  const [bobXAttr, bobYAttr] = await Promise.all([
-    canvas.getAttribute("data-bob-x"),
-    canvas.getAttribute("data-bob-y"),
-  ]);
-  if (!bobXAttr || !bobYAttr) {
-    throw new Error("Current bob coordinates are unavailable.");
-  }
-  const pivotX = box.x + box.width * 0.5;
-  const pivotY = box.y + (84 / 640) * box.height;
-  const startX = box.x + (Number.parseFloat(bobXAttr) / 960) * box.width;
-  const startY = box.y + (Number.parseFloat(bobYAttr) / 640) * box.height;
-  const targetX = pivotX - 240 * (box.width / 960);
-  const targetY = pivotY + 150 * (box.height / 640);
-
-  await canvas.dispatchEvent("pointerdown", {
-    clientX: startX,
-    clientY: startY,
-    pointerId: 1,
-    bubbles: true,
-  });
-  await canvas.dispatchEvent("pointermove", {
-    clientX: targetX,
-    clientY: targetY,
-    pointerId: 1,
-    bubbles: true,
-  });
-  await canvas.dispatchEvent("pointerup", {
-    clientX: targetX,
-    clientY: targetY,
-    pointerId: 1,
-    bubbles: true,
-  });
-}
-
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "2D Nonlinear Simple Pendulum Simulation" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Explore the pendulum" }),
+  ).toBeVisible();
 });
-
-test("renders baseline educational panels", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Simulation Canvas" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Controls" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Live Data" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Graph Panel" })).toBeVisible();
-  await expect(page.locator("#graph-caption")).toContainText("Angular position vs time");
-  await expect(page.locator("#mode-chip")).toContainText("Angular");
-  await expect(page.locator("#run-chip")).toContainText("Running");
-  await expect(page.locator("#instant-table table")).toBeVisible();
-  await expect(page.locator("#derived-table table")).toBeVisible();
-  await expect(page.locator(".canvas-toggles")).toContainText("Forces");
-  await expect(page.locator(".canvas-toggles")).toContainText("Energy");
-  await expect(page.locator("#equation-panel")).toHaveCount(0);
-  await expect(page.locator("#toggle-equations")).toHaveCount(0);
-  await expect(page.locator("#mass-input")).toHaveCount(0);
-  await expect(page.locator("#quadratic-input")).toHaveCount(0);
-  await expect(page.locator("#toggle-motion")).toHaveCount(0);
-  await expect(page.locator("#toggle-phase")).toHaveCount(0);
-  await expect(page.locator("#toggle-values")).toHaveCount(0);
-  await expect(page.locator("#toggle-derived")).toHaveCount(0);
-  await expect(page.locator("#toggle-gravity-vector")).toHaveCount(0);
-  await expect(page.locator("#toggle-velocity-vector")).toHaveCount(0);
-  await expect(page.locator("#toggle-tension-vector")).toHaveCount(0);
-  await expect(page.locator("#toggle-acceleration-vector")).toHaveCount(0);
-  await expect(page.locator("#instant-table")).not.toContainText("Angular acceleration");
-  await expect(page.locator("#instant-table")).not.toContainText("Total energy");
-  await expect(page.locator("#instant-table")).not.toContainText("Kinetic energy");
-  await expect(page.locator("#instant-table")).not.toContainText("Potential energy");
-  await expect(page.locator("#derived-table")).not.toContainText("Maximum angle reached");
-  await expect(page.locator("#derived-table")).not.toContainText("Energy drift");
-});
-
-test("play, pause, step, and reset update simulation state", async ({ page }) => {
-  await expect(page.locator("#run-chip")).toContainText("Running");
-  await page.waitForTimeout(250);
-  const runningTime = await numberFromRow(page, "#instant-table table", "Time");
-  expect(runningTime).toBeGreaterThan(0);
-
-  await page.click("#pause-button");
-  await expect(page.locator("#run-chip")).toContainText("Paused");
-  const pausedBeforeStep = await numberFromRow(page, "#instant-table table", "Time");
-
+test("starts paused; exactly one step, reset and playback", async ({
+  page,
+}) => {
+  expect(await value(page, "Time (s)")).toBe(0);
   await page.click("#step-button");
-  const steppedFromPausedTime = await numberFromRow(page, "#instant-table table", "Time");
-  expect(steppedFromPausedTime - pausedBeforeStep).toBeGreaterThan(0.09);
-  expect(steppedFromPausedTime - pausedBeforeStep).toBeLessThan(0.11);
-
-  const pausedTime = steppedFromPausedTime;
+  expect(await value(page, "Time (s)")).toBeCloseTo(1 / 240, 5);
   await page.waitForTimeout(150);
-  const pausedTimeAfterWait = await numberFromRow(page, "#instant-table table", "Time");
-  expect(pausedTimeAfterWait).toBeCloseTo(pausedTime, 4);
-
-  await page.click("#step-button");
-  const steppedTime = await numberFromRow(page, "#instant-table table", "Time");
-  expect(steppedTime - pausedTime).toBeGreaterThan(0.09);
-  expect(steppedTime - pausedTime).toBeLessThan(0.11);
-
+  expect(await value(page, "Time (s)")).toBeCloseTo(1 / 240, 5);
+  await page.click("#play-button");
+  await expect.poll(() => value(page, "Time (s)")).toBeGreaterThan(0.1);
+  await page.click("#play-button");
+  await expect(page.locator("#run-chip")).toHaveText("Paused");
   await page.click("#reset-button");
-  const resetTime = await numberFromRow(page, "#instant-table table", "Time");
-  expect(resetTime).toBe(0);
+  expect(await value(page, "Time (s)")).toBe(0);
 });
-
-test("parameter changes force reset and preserve paused state", async ({ page }) => {
-  await page.click("#play-button");
-  await page.waitForTimeout(180);
-  await setRangeValue(page, "#gravity-input", "12.5");
-  await expect(page.locator("#run-chip")).toContainText("Paused");
-  await expect(page.locator("#gravity-output")).toContainText("12.50 m/s²");
-  const time = await numberFromRow(page, "#instant-table table", "Time");
-  expect(time).toBe(0);
-});
-
-test("graph mode selection updates captions and cartesian restrictions", async ({ page }) => {
-  await page.selectOption("#graph-select", "omega");
-  await expect(page.locator("#graph-caption")).toContainText("Angular velocity vs time");
-
-  await page.selectOption("#graph-select", "energy");
-  await expect(page.locator("#graph-caption")).toContainText("Total energy vs time");
-
-  await page.selectOption("#graph-time-scale-select", "compress");
-  await expect(page.locator("#graph-caption")).toContainText("compressed time axis");
-  await page.selectOption("#graph-time-scale-select", "scroll");
-
-  await page.selectOption("#graph-select", "phase");
-  await expect(page.locator("#graph-caption")).toContainText("θ vs ω with fixed reset-time scaling.");
-
-  await page.selectOption("#graph-select", "x");
-  await expect(page.locator("#graph-select")).toHaveValue("phase");
-
+test("presets, units, numerical settings and physical data views", async ({
+  page,
+}) => {
+  await page
+    .getByRole("button", { name: "Losing energy", exact: true })
+    .click();
+  await page
+    .getByText("Damping, driving & initial speed", { exact: true })
+    .click();
+  await expect(page.locator("#linearDamping-input")).toHaveValue("0.08");
+  await page.locator("#mass-input").fill("2");
+  await page.locator("#mass-input").press("Tab");
+  expect(await value(page, "Time (s)")).toBe(0);
+  await page.getByText("Numerical settings", { exact: true }).click();
   await page.selectOption("#mode-select", "cartesian");
-  await expect(page.locator("#mode-chip")).toContainText("Cartesian");
-  await expect(page.locator("#instant-table")).toContainText("Time");
-
-  await page.selectOption("#graph-select", "x");
-  await expect(page.locator("#graph-select")).toHaveValue("x");
-  await expect(page.locator("#graph-caption")).toContainText("Cartesian x vs time");
-
-  await page.selectOption("#graph-select", "y");
-  await expect(page.locator("#graph-caption")).toContainText("Cartesian y vs time");
-
-  await page.selectOption("#mode-select", "angular");
-  await expect(page.locator("#graph-select")).toHaveValue("theta");
-  await expect(page.locator("#mode-chip")).toContainText("Angular");
+  await page.selectOption("#dt-select", String(1 / 120));
+  await page.click("#step-button");
+  expect(await value(page, "Time (s)")).toBeCloseTo(1 / 120, 5);
+  await page.selectOption("#data-select", "energy");
+  await expect(page.locator("#live-data")).toContainText(
+    "Energy dissipated (J)",
+  );
+  await page.selectOption("#data-select", "motion");
+  await expect(page.locator("#live-data")).toContainText(
+    "Angular acceleration (rad/s²)",
+  );
+  expect(await value(page, "Angular velocity (rad/s)")).toBeLessThan(0);
+  for (const mode of [
+    "theta",
+    "omega",
+    "energy",
+    "balance",
+    "phase",
+    "x",
+    "y",
+  ]) {
+    await page.selectOption("#graph-select", mode);
+    await expect(page.locator("#graph-caption")).toContainText(
+      "Axes scale automatically",
+    );
+  }
 });
-
-test("in-canvas toggles control forces and energy overlays", async ({ page }) => {
-  await page.selectOption("#graph-select", "energy");
-  await page.uncheck("#toggle-energy");
-  await expect(page.locator("#graph-canvas")).toBeVisible();
-  await page.waitForTimeout(100);
-  await expect(page.locator("#graph-caption")).toContainText("Total energy vs time");
-  await page.check("#toggle-energy");
-  await page.uncheck("#toggle-forces");
-  await page.check("#toggle-forces");
-  await expect(page.locator("#data-panel")).toBeVisible();
+test("CSV preserves SI values, parameters and retained interval", async ({
+  page,
+}) => {
+  await page.click("#step-button");
+  const promise = page.waitForEvent("download");
+  await page.click("#export-button");
+  const download = await promise;
+  const stream = await download.createReadStream();
+  let text = "";
+  for await (const chunk of stream!) text += chunk.toString();
+  expect(text).toContain("0.3.0");
+  expect(text).toContain("mode=angular");
+  expect(text).toContain("retained=2; total=2");
+  expect(text).toContain("theta rad");
+  const rows = text.split("\n").filter((l) => !l.startsWith("#"));
+  expect(rows.length).toBe(3);
+  expect(Number(rows[2].split(",")[0])).toBeCloseTo(1 / 240, 12);
 });
-
-test("dragging the bob pauses, resets time, and changes the angle", async ({ page }) => {
+test("shared settings round-trip and invalid settings safely fall back", async ({
+  page,
+}) => {
+  await page
+    .getByRole("button", { name: "Large oscillations", exact: true })
+    .click();
+  await page.getByText("Numerical settings", { exact: true }).click();
+  await page.selectOption("#mode-select", "cartesian");
+  const link = await page.locator("#share-link").inputValue();
+  await page.goto(link);
+  await expect(page.locator("#initialAngle-input")).toHaveValue("90");
+  await expect(page.locator("#mode-select")).toHaveValue("cartesian");
+  expect(await value(page, "Time (s)")).toBe(0);
+  await page.goto("/?setup=%7B%22mass%22%3A0%7D");
+  await expect(page.locator("#notice")).toContainText("invalid");
+  await expect(page.locator("#mass-input")).toHaveValue("1");
+});
+test("invalid input blocks playback and preset restores validity", async ({
+  page,
+}) => {
+  await page.locator("#length-input").fill("0");
+  await page.locator("#length-input").press("Tab");
   await page.click("#play-button");
-  await page.waitForTimeout(180);
-  const liveAngle = await numberFromRow(page, "#instant-table table", "Angle");
-  await dragBob(page);
-  await expect(page.locator("#run-chip")).toContainText("Paused");
+  await expect(page.locator("#run-chip")).toHaveText("Paused");
+  await page
+    .getByRole("button", { name: "Small oscillations", exact: true })
+    .click();
+  await page.click("#play-button");
+  await expect.poll(() => value(page, "Time (s)")).toBeGreaterThan(0);
+});
+test("dragging bob releases from rest and resets experiment", async ({
+  page,
+}) => {
+  const c = page.locator("#simulation-canvas");
+  await c.scrollIntoViewIfNeeded();
+  const box = (await c.boundingBox())!;
+  const bx = Number(await c.getAttribute("data-bob-x")),
+    by = Number(await c.getAttribute("data-bob-y"));
+  await page.mouse.move(
+    box.x + (bx / 800) * box.width,
+    box.y + (by / 600) * box.height,
+  );
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.35, box.y + box.height * 0.7);
+  await page.mouse.up();
+  expect(await value(page, "Time (s)")).toBe(0);
+  expect(await value(page, "Angular velocity (rad/s)")).toBe(0);
+  expect(await value(page, "Angle (rad)")).toBeLessThan(0);
+});
+test("responsive layout and no browser errors", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.reload();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await expect(page.locator("#play-button")).toBeVisible();
+  await page.click("#play-button");
+  await page.waitForTimeout(150);
+  await page.click("#play-button");
+  expect(errors).toEqual([]);
+  await page.screenshot({
+    path: "validation/mobile-preview.png",
+    fullPage: true,
+  });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.screenshot({
+    path: "validation/desktop-preview.png",
+    fullPage: true,
+  });
+});
 
-  const time = await numberFromRow(page, "#instant-table table", "Time");
-  const omega = await numberFromRow(page, "#instant-table table", "Angular velocity");
-  const angle = await numberFromRow(page, "#instant-table table", "Angle");
-  expect(time).toBe(0);
-  expect(Math.abs(omega)).toBeLessThan(0.0001);
-  expect(Math.abs(angle - liveAngle)).toBeGreaterThan(0.1);
+test("fit checkbox preserves a full run beyond the former 40-second limit", async ({
+  page,
+}) => {
+  await page.clock.install();
+  await page.reload();
+  await expect(page.locator("#initialAngle-input")).toHaveValue("10");
+  await expect(page.locator("#fit-all-data")).toBeChecked();
+  await expect(page.locator("#window-select")).toBeDisabled();
+  await page.selectOption("#speed-select", "2");
+  await page.click("#play-button");
+  await page.clock.runFor(30000);
+  await page.click("#play-button");
+  expect(await value(page, "Time (s)")).toBeGreaterThan(45);
+  await expect(page.locator("#retention")).toContainText("0.000–");
+  const downloadPromise = page.waitForEvent("download");
+  await page.click("#export-button");
+  const download = await downloadPromise;
+  const stream = await download.createReadStream();
+  let csv = "";
+  for await (const chunk of stream!) csv += chunk.toString();
+  const rows = csv.split("\n").filter((l) => !l.startsWith("#"));
+  expect(rows.length).toBeGreaterThan(10000);
+  expect(Number(rows[1].split(",")[0])).toBe(0);
+  await page.uncheck("#fit-all-data");
+  await expect(page.locator("#window-select")).toBeEnabled();
+  await expect(page.locator("#graph-caption")).toContainText("last 10 seconds");
+  await page.check("#fit-all-data");
+  await expect(page.locator("#graph-caption")).toContainText("full run");
+});
+
+test("fluid investigations change density and viscosity independently and share correctly", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Under water", exact: true }).click();
+  await expect(page.locator("#fluid-controls")).toHaveAttribute("open", "");
+  await expect(page.locator("#fluidDensity-input")).toHaveValue("1000");
+  await expect(page.locator("#fluidViscosity-input")).toHaveValue("0.001");
+  await expect(page.locator("#live-data")).toContainText("Effective gravity");
+  await expect(page.locator("#data-select")).toHaveValue("fluid");
+  await page.getByRole("button", { name: "Oil", exact: true }).click();
+  await expect(page.locator("#fluidDensity-input")).toHaveValue("900");
+  await expect(page.locator("#fluidViscosity-input")).toHaveValue("0.1");
+  await expect(page.locator("#mass-input")).toHaveValue("0.1");
+  await page.locator("#fluidDensity-input").fill("1100");
+  await page.locator("#fluidDensity-input").press("Tab");
+  await expect(page.locator("#fluidViscosity-input")).toHaveValue("0.1");
+  const link = await page.locator("#share-link").inputValue();
+  await page.goto(link);
+  await expect(page.locator("#fluidDensity-input")).toHaveValue("1100");
+  await expect(page.locator("#fluidViscosity-input")).toHaveValue("0.1");
+  await page
+    .getByRole("button", { name: "A buoyant bob", exact: true })
+    .click();
+  expect(await value(page, "Effective gravity (m/s²)")).toBeLessThan(0);
+  await expect(page.locator("#live-data")).toContainText(
+    "reverses the restoring torque",
+  );
+  await expect(
+    page.getByRole("heading", {
+      name: "What changes when water is replaced by oil?",
+    }),
+  ).toBeVisible();
+});
+
+test("wide physical inputs and new investigations work", async ({ page }) => {
+  await page.locator("#length-input").fill("12");
+  await page.locator("#length-input").press("Tab");
+  await page.locator("#mass-input").fill("0.02");
+  await page.locator("#mass-input").press("Tab");
+  await page
+    .getByText("Damping, driving & initial speed", { exact: true })
+    .click();
+  await page.locator("#linearDamping-input").fill("3");
+  await page.locator("#linearDamping-input").press("Tab");
+  await page.click("#step-button");
+  expect(await value(page, "Time (s)")).toBeGreaterThan(0);
+  const link = await page.locator("#share-link").inputValue();
+  await page.goto(link);
+  await expect(page.locator("#length-input")).toHaveValue("12");
+  await expect(page.locator("#mass-input")).toHaveValue("0.02");
+  for (const name of [
+    "On the Moon",
+    "Long pendulum",
+    "Strong damping",
+    "Near-neutral buoyancy",
+    "Oil",
+  ]) {
+    await page.getByRole("button", { name, exact: true }).click();
+    await page.click("#step-button");
+    await expect(page.locator("#notice")).not.toContainText("Error");
+  }
 });

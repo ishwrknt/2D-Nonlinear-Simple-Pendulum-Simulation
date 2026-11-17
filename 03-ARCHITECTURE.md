@@ -1,0 +1,4 @@
+# Architecture
+Pure physics engine separated from browser interface and graph rendering. Angular RK4 integrates theta, omega and work/loss. Independent Cartesian RK4 integrates constrained vector equations, followed by radius/velocity projection. The Cartesian method is not described as RATTLE. Fixed output step with deterministic subdivisions for fast/stiff cases; measured convergence determines adequacy. Retained state ring feeds graphs, tables and CSV; rendering is independent of stepping. Independent Python DOP853/elliptic validation complements Node invariants and Playwright browser tests. Use a local static release package.
+
+User-approved scope amendment during review: replace rolling 10,000-state retention with full raw history and bounded extrema-preserving graph summaries. Fit-all becomes a default-checked checkbox; small conservative release is the default. Memory use grows with raw run length.

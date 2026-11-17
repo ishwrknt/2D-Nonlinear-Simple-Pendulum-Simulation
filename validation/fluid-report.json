@@ -1,0 +1,70 @@
+{
+  "scope": "Numerical agreement with same approximate hydrodynamic model, not real-fluid experimental validation.",
+  "reference": "Independent Python forces; SciPy DOP853, rtol2e-12 atol2e-14 max_step0.01 s",
+  "results": [
+    {
+      "case": "air",
+      "mode": "angular",
+      "effective_gravity_m_s2": 9.802295244017072,
+      "maximum_state_component_error": 1.67475526779981e-08,
+      "maximum_balance_residual_J": 2.3978164939708613e-11,
+      "energy_dissipated_10s_J": 0.005665664709235518
+    },
+    {
+      "case": "water",
+      "mode": "angular",
+      "effective_gravity_m_s2": 3.38937001422586,
+      "maximum_state_component_error": 2.1035425592369483e-08,
+      "maximum_balance_residual_J": 1.354678175191637e-11,
+      "energy_dissipated_10s_J": 0.03392688357719802
+    },
+    {
+      "case": "oil",
+      "mode": "angular",
+      "effective_gravity_m_s2": 4.031433012803275,
+      "maximum_state_component_error": 1.3368630404075876e-08,
+      "maximum_balance_residual_J": 2.4454244185179164e-11,
+      "energy_dissipated_10s_J": 0.04050724343862873
+    },
+    {
+      "case": "buoyant",
+      "mode": "angular",
+      "effective_gravity_m_s2": -7.808208680964244,
+      "maximum_state_component_error": 8.02040961526973e-08,
+      "maximum_balance_residual_J": 1.902884516624681e-10,
+      "energy_dissipated_10s_J": 1.0927179394540467
+    },
+    {
+      "case": "air",
+      "mode": "cartesian",
+      "effective_gravity_m_s2": 9.802295244017072,
+      "maximum_state_component_error": 2.2613317274267075e-08,
+      "maximum_balance_residual_J": 5.0669613470277763e-11,
+      "energy_dissipated_10s_J": 0.005665664710148496
+    },
+    {
+      "case": "water",
+      "mode": "cartesian",
+      "effective_gravity_m_s2": 3.38937001422586,
+      "maximum_state_component_error": 2.1035878282338327e-08,
+      "maximum_balance_residual_J": 1.39600900284087e-11,
+      "energy_dissipated_10s_J": 0.0339268835776107
+    },
+    {
+      "case": "oil",
+      "mode": "cartesian",
+      "effective_gravity_m_s2": 4.031433012803275,
+      "maximum_state_component_error": 1.336961915482382e-08,
+      "maximum_balance_residual_J": 2.4945406851273333e-11,
+      "energy_dissipated_10s_J": 0.040507243439119885
+    },
+    {
+      "case": "buoyant",
+      "mode": "cartesian",
+      "effective_gravity_m_s2": -7.808208680964244,
+      "maximum_state_component_error": 8.020593958088518e-08,
+      "maximum_balance_residual_J": 2.0800428046641173e-10,
+      "energy_dissipated_10s_J": 1.0927179394717617
+    }
+  ]
+}

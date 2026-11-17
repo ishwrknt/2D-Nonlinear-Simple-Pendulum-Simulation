@@ -1,0 +1,68 @@
+import type { Question } from './quiz-questions';
+const critical = 2 * 0.75 ** 2 * Math.sqrt(9.81 / 0.75);
+export const advancedQuestions: Question[] = [
+  {
+    id: 'combined', topic: 'Combined scaling',
+    prompt: 'An ideal pendulum changes from L = 0.75 m, g = 9.81 m/s² to L = 3 m, g = 2.4525 m/s². Both start at 10° from rest. What is the new period divided by the old period?',
+    options: ['2', '4', '8', '1'], correct: 1,
+    explanation: 'T scales as √(L/g). Length increases by 4 and gravity decreases by 4, so L/g increases by 16 and the period increases by 4. The finite-amplitude correction cancels because both release angles are equal. Changing mass would not change this conservative result.',
+    watch: 'Count four oscillations of case 1 for about one of case 2. The reference periods have ratio 4.',
+    cases: [{label:'Original L and g',settings:{}},{label:'4L and g/4',settings:{length:3,gravity:2.4525}}],
+  },
+  {
+    id: 'mass-damping', topic: 'Mass with fixed damping torque',
+    prompt: 'Two dry pendulums share length, small release angle and the same linear torque coefficient b = 0.4 N m s/rad. Doubling mass does what to the small-angle amplitude-envelope decay rate b/(2mL²)?',
+    options: ['Doubles it.', 'Leaves it unchanged because mass always cancels.', 'Halves it.', 'Removes all damping.'], correct: 2,
+    explanation: 'Divide mL²θ̈ + bθ̇ + mgLθ = 0 by mL². Gravity still gives g/L, but the damping term is b/(mL²). In the underdamped small-angle regime the envelope is proportional to exp[−bt/(2mL²)], so doubling mass halves its decay rate. The damped frequency also changes slightly; instantaneous angles are not envelope measurements.',
+    watch: 'Compare successive peak magnitudes. The heavier bob retains its amplitude longer at the same torque coefficient.',
+    cases: [{label:'1 kg, b = 0.4',settings:{linearDamping:0.4}},{label:'2 kg, b = 0.4',settings:{mass:2,linearDamping:0.4}}],
+  },
+  {
+    id:'critical',topic:'Fast return without overshoot',
+    prompt:'For a dry pendulum released from rest at 2°, compare b = b_c with b = 4b_c, where b_c = 2mL²√(g/L). Which returns close to equilibrium faster without overshoot in the linear approximation?',
+    options:['b = 4b_c, because more damping always means faster settling.','Both have the same return time.','Neither can return without oscillating.','b = b_c; excessive damping slows the return.'],correct:3,
+    explanation:'At critical damping the repeated root is −√(g/L). With release from rest, θ = θ₀(1 + ω₀t)exp(−ω₀t). Above critical damping, a slower exponential mode appears: −ω₀(ζ − √(ζ² − 1)), with ζ = b/b_c. At ζ = 4 this mode decays much more slowly. These formulas are small-angle approximations; the demonstrations integrate sin θ.',
+    watch:'Both remain on the release side. The critically damped bob gets close to zero sooner; compare angles at the same time.',
+    cases:[{label:'Critical damping',settings:{initialAngle:Math.PI/90,linearDamping:critical}},{label:'Four times critical',settings:{initialAngle:Math.PI/90,linearDamping:4*critical}}],
+  },
+  {
+    id:'rotation',topic:'Energy threshold for rotation',
+    prompt:'A dry ideal pendulum on a rigid massless rod starts at the bottom. There is no damping or drive. Which initial angular speed allows it to pass over the top?',
+    options:['Any nonzero angular speed.','Only |ω| > 2√(g/L).','Exactly |ω| = √(g/L).','Mass alone decides.'],correct:1,
+    explanation:'The potential rise from bottom to top is 2mgL. Initial kinetic energy is ½mL²ω². Passing the top requires strictly more energy than the barrier, giving |ω| > 2√(g/L). At exact equality the ideal trajectory approaches the top asymptotically. A flexible string would require a separate tension check; this model uses a rigid rod.',
+    watch:'The 0.95-threshold launch reverses below the top. The 1.05-threshold launch rotates, and its unwrapped angle continues beyond 180°.',
+    cases:[{label:'0.95 × threshold',settings:{initialAngle:0,initialOmega:0.95*2*Math.sqrt(9.81/0.75)}},{label:'1.05 × threshold',settings:{initialAngle:0,initialOmega:1.05*2*Math.sqrt(9.81/0.75)}}],
+  },
+  {
+    id:'radius-buoyancy',topic:'Radius, volume and stability',
+    prompt:'A fully immersed bob of fixed mass initially displaces fluid whose mass is 0.20 times the bob mass. Its radius doubles while bob mass and fluid density stay fixed. What happens to the downward equilibrium?',
+    options:['It remains stable because radius only affects drag.','It becomes neutrally buoyant.','It becomes unstable: displaced fluid mass becomes 1.60 times bob mass.','The restoring gravity doubles.'],correct:2,
+    explanation:'Sphere volume is 4πr³/3, so doubling radius multiplies displaced fluid mass by 8. The ratio changes from 0.20 to 1.60; g_eff = g(1 − ρV/m) changes from +0.80g to −0.60g. Downward equilibrium is then unstable and upward equilibrium stable in this rigid-rod model. Drag changes as well, but does not reverse this static stability conclusion. Exactly at rest on the downward vertical the ideal system would stay there; the demonstration starts at 10°.',
+    watch:'The smaller bob initially accelerates toward zero; the larger bob moves away toward the upward direction. Drawn bob sizes are symbolic; read the radius labels.',
+    cases:[{label:'Radius 0.025 m',settings:{mass:0.1,fluidDensity:0.02/(4*Math.PI*0.025**3/3)}},{label:'Radius 0.050 m',settings:{mass:0.1,bobRadius:0.05,fluidDensity:0.02/(4*Math.PI*0.025**3/3)}}],
+  },
+  {
+    id:'driven-balance',topic:'Driven energy accounting',
+    prompt:'A driven, damped pendulum sometimes gains mechanical energy. Which quantity should remain approximately equal to its initial mechanical energy E₀?',
+    options:['E + E_dissipated − W_drive','E alone','E − E_dissipated − W_drive','E + W_drive'],correct:0,
+    explanation:'Power balance gives dE/dt = τ_drive ω − bω² for linear damping. Integrating gives E − E₀ = W_drive − E_dissipated. Thus E + E_dissipated − W_drive ≈ E₀. Drive work is signed: the drive can supply or remove energy depending on its phase relative to velocity. A small residual checks numerical consistency, not the realism of the model.',
+    watch:'Compare the undriven and driven cases. Read drive work and the energy-balance residual as well as mechanical energy; neither increasing E nor nonzero dissipation alone indicates a solver error.',
+    cases:[{label:'Damped, no drive',settings:{linearDamping:0.15}},{label:'Damped and driven',settings:{linearDamping:0.15,driveAmplitude:0.5,driveOmega:Math.sqrt(9.81/0.75)}}],
+  },
+  {
+    id:'bottom-speed',topic:'Nonlinear speed prediction',
+    prompt:'A conservative pendulum is released from rest first at 60° and then at 120°. What is the ratio of their angular speeds at the bottom, |ω₁₂₀| / |ω₆₀|?',
+    options:['2','3','√2','√3'],correct:3,
+    explanation:'Energy conservation gives ½mL²ω² = mgL(1 − cos θ₀). Hence the speed ratio is √[(1 − cos 120°)/(1 − cos 60°)] = √(1.5/0.5) = √3. Doubling release angle does not generally double speed. The small-angle estimate 1 − cos θ ≈ θ²/2 is inappropriate at these angles.',
+    watch:'Read the predicted bottom speeds and compare the angular-speed magnitudes near each vertical crossing. The crossings occur at different times.',
+    cases:[{label:'Release 60°',settings:{initialAngle:Math.PI/3}},{label:'Release 120°',settings:{initialAngle:2*Math.PI/3}}],
+  },
+  {
+    id:'matched-fluid',topic:'Matching buoyancy is not matching motion',
+    prompt:'Two immersed bobs have equal radius and viscosity. In case 2 both bob mass and fluid density double, keeping ρV/m fixed. Must their complete damped trajectories match?',
+    options:['Yes: equal effective gravity fixes the entire motion.','No: restoring acceleration matches, but drag torque divided by inertia need not match.','No: effective gravity must double.','Yes: viscosity is irrelevant.'],correct:1,
+    explanation:'Equal ρV/m gives equal g_eff and equal undamped small-angle period references. However, inertia mL² doubles while fluid drag depends on viscosity, radius, speed and Reynolds number. In the low-Reynolds limit the drag torque is 6πμrL²ω, independent of density, so doubling mass halves its acceleration effect. Outside that limit the correlation also changes with Reynolds number. Matching a period reference therefore does not guarantee matching decay.',
+    watch:'The reference periods agree, but the angle traces and decay differ. This uses a viscous illustrative fluid; it does not identify a particular oil.',
+    cases:[{label:'0.1 kg, 500 kg/m³',settings:{mass:0.1,fluidDensity:500,fluidViscosity:0.1}},{label:'0.2 kg, 1000 kg/m³',settings:{mass:0.2,fluidDensity:1000,fluidViscosity:0.1}}],
+  },
+];

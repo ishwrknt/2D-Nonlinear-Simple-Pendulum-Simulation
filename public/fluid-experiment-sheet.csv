@@ -1,0 +1,10 @@
+# Experiment template. Input settings are provided; observation cells are intentionally blank. Not measured results.
+study,trial,mass_kg,length_m,radius_m,release_angle_deg,fluid_density_kg_m3,dynamic_viscosity_Pa_s,prediction,measured_crossing_interval_s,first_peak_deg,third_peak_deg,dissipated_energy_5s_J,notes
+density_only,1,0.1,0.75,0.025,30,800,0.001,,,,,,
+density_only,2,0.1,0.75,0.025,30,1000,0.001,,,,,,
+density_only,3,0.1,0.75,0.025,30,1200,0.001,,,,,,
+viscosity_only,1,0.1,0.75,0.025,30,900,0.001,,,,,,
+viscosity_only,2,0.1,0.75,0.025,30,900,0.01,,,,,,
+viscosity_only,3,0.1,0.75,0.025,30,900,0.1,,,,,,
+water_to_oil,1,0.1,0.75,0.025,30,1000,0.001,,,,,,
+water_to_oil,2,0.1,0.75,0.025,30,900,0.1,,,,,,

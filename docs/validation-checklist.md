@@ -1,31 +1,14 @@
-# Validation Checklist
+# Validation record for version 0.2.0
 
-## Functional checks
+- [x] Original Cartesian defects reproduced with saved numeric evidence.
+- [x] Node checks: signs, conservative/damped/driven behaviour, rotations, rest, zero gravity, deterministic runs, reset, invalid inputs, coordinate agreement.
+- [x] Full-run storage: 300,000 samples preserve the start/end and chronology; bounded plotting summaries preserve extrema. Browser run beyond 60 simulated seconds and CSV verify removal of the former cutoff.
+- [x] DOP853 trajectories, independent elliptic periods, convergence, energy accounting, constraints and 120-second conservative benchmark.
+- [x] Chromium: play/pause/one-step/reset, parameters, presets, graph/data selections, CSV, shared/invalid settings, drag, mobile layout and fit-all checkbox with full history.
+- [x] Responsive desktop/mobile screenshots inspected.
+- [x] TypeScript and production Vite build.
+- [x] Engine-only timing separated from browser performance.
+- [ ] Other browser engines and physical mobile devices.
+- [ ] Classroom outcomes or validation against a measured real apparatus.
 
-- [ ] Play advances the simulation continuously with fixed-step graph updates.
-- [ ] Pause freezes motion without clearing graph history.
-- [ ] Step executes exactly one physics step and appends one new graph sample.
-- [ ] Reset clears all graph buffers and restores the configured initial state.
-- [ ] Dragging the bob pauses the simulation, zeros time, clears graph history, resets drive phase implicitly by resetting time, and leaves `ω = 0`.
-- [ ] Parameter changes force a reset and clear graph history.
-
-## Visualization checks
-
-- [ ] Motion, force vectors, energy overlay, equations, instantaneous values, and derived values can each be hidden with toggles.
-- [ ] Graph mode switching reuses retained buffers instead of clearing them.
-- [ ] Time-series graphs auto-scale the visible Y range with margin padding.
-- [ ] Phase space uses independent X and Y scaling.
-- [ ] Cartesian `x(t)` and `y(t)` views are available only in Cartesian mode.
-
-## Physics checks
-
-- [ ] Undamped angular motion produces an approximately closed phase-space loop.
-- [ ] Positive linear damping produces inward phase-space spirals and decaying energy.
-- [ ] Driving near `sqrt(g/L)` increases amplitude relative to the undriven baseline.
-- [ ] Cartesian mode keeps `x² + y²` close to `L²` after repeated stepping.
-
-## Performance checks
-
-- [ ] Sample storage remains capped at 10,000 points per graph.
-- [ ] No unbounded history growth occurs during long runs.
-- [ ] Build succeeds with `npm run build`.
+See validation/README.md for exact scope; checked items refer to local evidence, not to a completed remote CI run or deployment.

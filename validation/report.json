@@ -1,0 +1,612 @@
+{
+  "reference": "SciPy 1.15.3 DOP853 rtol=2e-12 atol=2e-14; elliptic integral",
+  "python": "3.12.12",
+  "results": [
+    {
+      "case": "free",
+      "mode": "angular",
+      "dt": 0.03333333333333333,
+      "state_error": 3.1727712173402814e-05,
+      "balance_J": 2.7625225999194924e-05,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "free",
+      "mode": "angular",
+      "dt": 0.016666666666666666,
+      "state_error": 2.2225152906357788e-06,
+      "balance_J": 8.927628307731084e-07,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "free",
+      "mode": "angular",
+      "dt": 0.008333333333333333,
+      "state_error": 1.465244756760784e-07,
+      "balance_J": 2.9675616630697732e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.6653345369377348e-16
+    },
+    {
+      "case": "free",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "state_error": 9.395849762087487e-09,
+      "balance_J": 1.0383907067534892e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "linear",
+      "mode": "angular",
+      "dt": 0.03333333333333333,
+      "state_error": 5.606016600873167e-06,
+      "balance_J": 8.111124915721746e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 5.551115123125783e-17
+    },
+    {
+      "case": "linear",
+      "mode": "angular",
+      "dt": 0.016666666666666666,
+      "state_error": 3.5055288426640066e-07,
+      "balance_J": 6.414025679468693e-07,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "linear",
+      "mode": "angular",
+      "dt": 0.008333333333333333,
+      "state_error": 2.1912120691748223e-08,
+      "balance_J": 4.426590693995536e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "linear",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "state_error": 1.3693587244968214e-09,
+      "balance_J": 2.8967317433625794e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "angular",
+      "dt": 0.03333333333333333,
+      "state_error": 1.4042879249155033e-05,
+      "balance_J": 1.2736517219114063e-05,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "angular",
+      "dt": 0.016666666666666666,
+      "state_error": 1.1028931626438584e-06,
+      "balance_J": 1.0792307856277716e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "angular",
+      "dt": 0.008333333333333333,
+      "state_error": 6.923745238683128e-08,
+      "balance_J": 7.633686838204312e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "state_error": 4.4321173087862824e-09,
+      "balance_J": 5.049984430627319e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "driven",
+      "mode": "angular",
+      "dt": 0.03333333333333333,
+      "state_error": 1.0787320527889505e-05,
+      "balance_J": 2.4455249112431687e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "driven",
+      "mode": "angular",
+      "dt": 0.016666666666666666,
+      "state_error": 6.792013336209883e-07,
+      "balance_J": 7.327264284207047e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "driven",
+      "mode": "angular",
+      "dt": 0.008333333333333333,
+      "state_error": 4.2602604860220735e-08,
+      "balance_J": 1.091011103682149e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "driven",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "state_error": 2.666942428676801e-09,
+      "balance_J": 8.873551893273657e-10,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "angular",
+      "dt": 0.03333333333333333,
+      "state_error": 4.1735049073076035e-06,
+      "balance_J": 6.040276197438743e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "angular",
+      "dt": 0.016666666666666666,
+      "state_error": 9.152986159012713e-07,
+      "balance_J": 3.2617687004687923e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "angular",
+      "dt": 0.008333333333333333,
+      "state_error": 8.215095028049075e-07,
+      "balance_J": 6.438591135804472e-07,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "state_error": 3.3955044552455696e-08,
+      "balance_J": 2.4774191587084715e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "stiff",
+      "mode": "angular",
+      "dt": 0.03333333333333333,
+      "state_error": 4.7306853011210465e-09,
+      "balance_J": 2.1596449073513213e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 6.938893903907228e-18
+    },
+    {
+      "case": "stiff",
+      "mode": "angular",
+      "dt": 0.016666666666666666,
+      "state_error": 1.8454891868427375e-08,
+      "balance_J": 1.980698272063819e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 6.938893903907228e-18
+    },
+    {
+      "case": "stiff",
+      "mode": "angular",
+      "dt": 0.008333333333333333,
+      "state_error": 5.16934285754035e-08,
+      "balance_J": 1.6800356661406113e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 1.3877787807814457e-17
+    },
+    {
+      "case": "stiff",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "state_error": 6.220334492782898e-08,
+      "balance_J": 1.6581225281697698e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 1.3877787807814457e-17
+    },
+    {
+      "case": "period",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "angle_rad": 0.05,
+      "exact_period_s": 1.737576199927925,
+      "measured_period_s": 1.7375762014955096,
+      "period_error_percent": 9.021674518550071e-08
+    },
+    {
+      "case": "period",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "angle_rad": 0.3,
+      "exact_period_s": 1.7471277339527131,
+      "measured_period_s": 1.7471277359689712,
+      "period_error_percent": 1.1540415290056671e-07
+    },
+    {
+      "case": "period",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "angle_rad": 0.9,
+      "exact_period_s": 1.8295677606564347,
+      "measured_period_s": 1.8295677623954678,
+      "period_error_percent": 9.505158882205933e-08
+    },
+    {
+      "case": "period",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "angle_rad": 1.5,
+      "exact_period_s": 2.0186937692201004,
+      "measured_period_s": 2.0186937619109955,
+      "period_error_percent": 3.620710065099786e-07
+    },
+    {
+      "case": "period",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "angle_rad": 2.4,
+      "exact_period_s": 2.7104806202867793,
+      "measured_period_s": 2.710480623921241,
+      "period_error_percent": 1.340891842005476e-07
+    },
+    {
+      "case": "period",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "angle_rad": 3,
+      "exact_period_s": 4.467016843611915,
+      "measured_period_s": 4.467016801070755,
+      "period_error_percent": 9.523393629251586e-07
+    },
+    {
+      "case": "long",
+      "mode": "angular",
+      "dt": 0.004166666666666667,
+      "energy_range_percent": 3.664341908040966e-07,
+      "energy_ratio": 0.9999999963937201
+    },
+    {
+      "case": "free",
+      "mode": "cartesian",
+      "dt": 0.03333333333333333,
+      "state_error": 5.3492763156743206e-05,
+      "balance_J": 0.00012333839531075697,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "free",
+      "mode": "cartesian",
+      "dt": 0.016666666666666666,
+      "state_error": 4.319294391252695e-06,
+      "balance_J": 3.971535785574076e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "free",
+      "mode": "cartesian",
+      "dt": 0.008333333333333333,
+      "state_error": 3.0343765463680613e-07,
+      "balance_J": 1.3016944233612548e-07,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "free",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "state_error": 2.0030305791164983e-08,
+      "balance_J": 4.438292400266164e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "linear",
+      "mode": "cartesian",
+      "dt": 0.03333333333333333,
+      "state_error": 7.389097414490143e-06,
+      "balance_J": 7.963378553466072e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 5.551115123125783e-17
+    },
+    {
+      "case": "linear",
+      "mode": "cartesian",
+      "dt": 0.016666666666666666,
+      "state_error": 4.6782783790895764e-07,
+      "balance_J": 7.976924885078063e-07,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "linear",
+      "mode": "cartesian",
+      "dt": 0.008333333333333333,
+      "state_error": 2.942769421008238e-08,
+      "balance_J": 5.920853585195118e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "linear",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "state_error": 1.844644427596099e-09,
+      "balance_J": 3.991932118196928e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "cartesian",
+      "dt": 0.03333333333333333,
+      "state_error": 1.7280891967501572e-05,
+      "balance_J": 7.933593907161196e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "cartesian",
+      "dt": 0.016666666666666666,
+      "state_error": 1.3077835049514275e-06,
+      "balance_J": 1.1023899579853946e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "cartesian",
+      "dt": 0.008333333333333333,
+      "state_error": 8.236876353854092e-08,
+      "balance_J": 8.811297513844352e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "quadratic",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "state_error": 5.312033616144175e-09,
+      "balance_J": 6.109123873443423e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "driven",
+      "mode": "cartesian",
+      "dt": 0.03333333333333333,
+      "state_error": 1.4510185043738402e-05,
+      "balance_J": 4.991664501741155e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 5.551115123125783e-17
+    },
+    {
+      "case": "driven",
+      "mode": "cartesian",
+      "dt": 0.016666666666666666,
+      "state_error": 9.282768924269103e-07,
+      "balance_J": 3.24162160669772e-07,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 1.1102230246251565e-16
+    },
+    {
+      "case": "driven",
+      "mode": "cartesian",
+      "dt": 0.008333333333333333,
+      "state_error": 5.8686664487941694e-08,
+      "balance_J": 2.7777953270913258e-08,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "driven",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "state_error": 3.688415532882069e-09,
+      "balance_J": 2.180656766270772e-09,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 2.220446049250313e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "cartesian",
+      "dt": 0.03333333333333333,
+      "state_error": 0.00145273217190901,
+      "balance_J": 0.0012199433614483723,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "cartesian",
+      "dt": 0.016666666666666666,
+      "state_error": 0.0006332386052869056,
+      "balance_J": 0.0005336527424972815,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "cartesian",
+      "dt": 0.008333333333333333,
+      "state_error": 0.00016668495010589048,
+      "balance_J": 0.0001321747956417596,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "rotation",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "state_error": 5.792128411114416e-06,
+      "balance_J": 4.175278345286415e-06,
+      "constraint_m2": 2.220446049250313e-16,
+      "tangency_m2_s": 8.881784197001252e-16
+    },
+    {
+      "case": "stiff",
+      "mode": "cartesian",
+      "dt": 0.03333333333333333,
+      "state_error": 4.7325437570128275e-09,
+      "balance_J": 2.158703438226439e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 6.938893903907228e-18
+    },
+    {
+      "case": "stiff",
+      "mode": "cartesian",
+      "dt": 0.016666666666666666,
+      "state_error": 1.8454878045011724e-08,
+      "balance_J": 1.9797106176611123e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 6.938893903907228e-18
+    },
+    {
+      "case": "stiff",
+      "mode": "cartesian",
+      "dt": 0.008333333333333333,
+      "state_error": 5.1693422624977226e-08,
+      "balance_J": 1.6789094559044315e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 1.3877787807814457e-17
+    },
+    {
+      "case": "stiff",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "state_error": 6.220333321997429e-08,
+      "balance_J": 1.657387116438258e-09,
+      "constraint_m2": 1.3877787807814457e-17,
+      "tangency_m2_s": 1.3877787807814457e-17
+    },
+    {
+      "case": "period",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "angle_rad": 0.05,
+      "exact_period_s": 1.737576199927925,
+      "measured_period_s": 1.7375762014969685,
+      "period_error_percent": 9.030070025062287e-08
+    },
+    {
+      "case": "period",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "angle_rad": 0.3,
+      "exact_period_s": 1.7471277339527131,
+      "measured_period_s": 1.747127736021568,
+      "period_error_percent": 1.1841463365414029e-07
+    },
+    {
+      "case": "period",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "angle_rad": 0.9,
+      "exact_period_s": 1.8295677606564347,
+      "measured_period_s": 1.8295677626693017,
+      "period_error_percent": 1.1001872746163599e-07
+    },
+    {
+      "case": "period",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "angle_rad": 1.5,
+      "exact_period_s": 2.0186937692201004,
+      "measured_period_s": 2.018693758218838,
+      "period_error_percent": 5.449693585291016e-07
+    },
+    {
+      "case": "period",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "angle_rad": 2.4,
+      "exact_period_s": 2.7104806202867793,
+      "measured_period_s": 2.7104805057214123,
+      "period_error_percent": 4.22675470179712e-06
+    },
+    {
+      "case": "period",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "angle_rad": 3,
+      "exact_period_s": 4.467016843611915,
+      "measured_period_s": 4.467013904831993,
+      "period_error_percent": 6.578842266513618e-05
+    },
+    {
+      "case": "long",
+      "mode": "cartesian",
+      "dt": 0.004166666666666667,
+      "energy_range_percent": 1.661853966592485e-06,
+      "energy_ratio": 0.9999999838439769
+    }
+  ],
+  "convergence": [
+    {
+      "mode": "angular",
+      "case": "free",
+      "finest_pair_order": 3.9629742194676427
+    },
+    {
+      "mode": "angular",
+      "case": "linear",
+      "finest_pair_order": 4.000156780239504
+    },
+    {
+      "mode": "angular",
+      "case": "quadratic",
+      "finest_pair_order": 3.96548466918088
+    },
+    {
+      "mode": "angular",
+      "case": "driven",
+      "finest_pair_order": 3.9976830573010154
+    },
+    {
+      "mode": "angular",
+      "case": "rotation",
+      "finest_pair_order": 4.596579433238005
+    },
+    {
+      "mode": "cartesian",
+      "case": "free",
+      "finest_pair_order": 3.921143774525775
+    },
+    {
+      "mode": "cartesian",
+      "case": "linear",
+      "finest_pair_order": 3.995759849889705
+    },
+    {
+      "mode": "cartesian",
+      "case": "quadratic",
+      "finest_pair_order": 3.954761150533876
+    },
+    {
+      "mode": "cartesian",
+      "case": "driven",
+      "finest_pair_order": 3.991959611018721
+    },
+    {
+      "mode": "cartesian",
+      "case": "rotation",
+      "finest_pair_order": 4.84688645259134
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Validation design
+Baseline: reproduce Cartesian force omission, velocity sign and free-energy decay.
+Default dt=1/240 s: conservative release period error <0.01% against elliptic integral; energy range <0.01% of E0 over 120 s for specified benchmark. Independent trajectories against SciPy DOP853 rtol2e-12 atol2e-14 for free, linear/quadratic damped, driven, rotating and strong-damping cases. Compare dt1/30..1/240, document observed orders and nonsmooth quadratic torque limitations. Check constraints, work/loss balance, method agreement, signs, rest, g=0, deterministic reruns and invalid inputs. Browser checks desktop/mobile, presets/reset/one-step, settings, CSV metadata and graph choices. Performance measured separately from animation FPS. Passing finite tests is not proof for arbitrary parameters or indefinitely long sensitive trajectories.
+
+User-approved scope amendment during review: replace rolling 10,000-state retention with full raw history and bounded extrema-preserving graph summaries. Fit-all becomes a default-checked checkbox; small conservative release is the default. Memory use grows with raw run length.
