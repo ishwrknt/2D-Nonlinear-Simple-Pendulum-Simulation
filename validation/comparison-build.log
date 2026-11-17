@@ -1,0 +1,21 @@
+
+> pendulum-animation-codex@0.3.0 build
+> tsc && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 16 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/quiz.html                        0.52 kB │ gzip:  0.31 kB
+dist/index.html                       0.58 kB │ gzip:  0.32 kB
+dist/compare.html                     0.61 kB │ gzip:  0.32 kB
+dist/assets/quiz-1OstpnSQ.css         0.81 kB │ gzip:  0.43 kB
+dist/assets/comparison-C4lkCR9r.css   1.14 kB │ gzip:  0.48 kB
+dist/assets/physics-BX7I9tCK.css      4.68 kB │ gzip:  1.71 kB
+dist/assets/settings-DntHpRSM.js      5.87 kB │ gzip:  2.39 kB
+dist/assets/physics-Eu-1lOgD.js       6.93 kB │ gzip:  2.72 kB
+dist/assets/comparison-FmHKHkvh.js   13.09 kB │ gzip:  5.56 kB
+dist/assets/quiz-lnrorP-q.js         22.81 kB │ gzip:  8.62 kB
+dist/assets/laboratory-Bwy-cpmb.js   26.98 kB │ gzip: 10.55 kB
+✓ built in 146ms

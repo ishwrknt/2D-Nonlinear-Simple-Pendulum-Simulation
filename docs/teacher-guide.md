@@ -13,3 +13,10 @@ Presets are starting points, not experiments with established learning outcomes.
 
 ## New fluid investigations
 Use Air, Under water, Oil and A buoyant bob presets. The [fluid experiment guide](fluid-experiments.md) supplies independent-variable studies, buoyancy/drag equations, illustrative fluid inputs and a blank recording sheet. Hold the sphere and release fixed when comparing fluids; vary density and viscosity separately before interpreting replacement of water by oil.
+
+## Compare multiple pendulums
+Use **Compare pendulums** at the top of the laboratory. Your current physical settings become pendulum 1. **Add pendulum** copies the last setup; there is no fixed three-pendulum limit. Each card has independent physical inputs and presets, with advanced damping/drive and fluid controls collapsed. Play, pause, step and reset operate on all pendulums together at one shared output step. Editing, adding or removing resets every run to time zero.
+
+The shared graph overlays angle, angular velocity, mechanical energy, phase space or position. Animations share one length scale. Comparison links preserve all settings; CSV includes every recorded sample and each pendulum’s parameters in SI units. Full history uses the existing extrema-preserving plot summaries. Browser memory and compute time constrain practical run sizes. Independent pendulums do not interact mechanically.
+
+Validation: 18 physics/data tests and 16 browser tests passed, including synchronization, controlled mass/length comparisons, CSV, shared links, invalid-input handling and four-pendulum mobile layout. After mobile graph refinements, all three comparison browser tests passed again.

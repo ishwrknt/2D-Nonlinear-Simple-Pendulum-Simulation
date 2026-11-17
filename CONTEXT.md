@@ -70,3 +70,14 @@ Publishing blocker: gh API reports signed-in ishwrknt has push=false for sastrio
 User corrected the flow: Part One must be followed by Part Two in one quiz. quiz.html now presents all 16 questions in order; after question 8, Continue to Part Two retains answers; final results show combined and per-part scores; restart returns to Part One. Separate Part Two links removed. Old ?part=2 links also begin at Part One. User authorized publishing under their account. Created fork ishwrknt/2D-Nonlinear-Simple-Pendulum-Simulation and enabled Actions/Pages workflow deployment. Footer links point to this fork. Local sequential checks and deployment verification in progress.
 
 Sequential flow verified: npm test passed (18 physics/data tests, production build, 13 Chromium browser tests). Both parts run in sequence with score retention, no early result and restart at foundations. Publishing this checked revision to the ishwrknt fork.
+
+## Multiple-pendulum comparison
+
+## Compare multiple pendulums
+Use **Compare pendulums** at the top of the laboratory. Your current physical settings become pendulum 1. **Add pendulum** copies the last setup; there is no fixed three-pendulum limit. Each card has independent physical inputs and presets, with advanced damping/drive and fluid controls collapsed. Play, pause, step and reset operate on all pendulums together at one shared output step. Editing, adding or removing resets every run to time zero.
+
+The shared graph overlays angle, angular velocity, mechanical energy, phase space or position. Animations share one length scale. Comparison links preserve all settings; CSV includes every recorded sample and each pendulum’s parameters in SI units. Full history uses the existing extrema-preserving plot summaries. Browser memory and compute time constrain practical run sizes. Independent pendulums do not interact mechanically.
+
+Validation: 18 physics/data tests and 16 browser tests passed, including synchronization, controlled mass/length comparisons, CSV, shared links, invalid-input handling and four-pendulum mobile layout. After mobile graph refinements, all three comparison browser tests passed again.
+
+Publishing fork: https://github.com/ishwrknt/2D-Nonlinear-Simple-Pendulum-Simulation . Earlier sequential-quiz commit 669772f was pushed. First Pages run failed because ubuntu-latest resolved to unsupported Ubuntu 26.04 for pinned Playwright. Both CI workflows now use ubuntu-24.04. Comparison implementation and runner fix are being pushed together; final deployment still requires confirmation from Actions and the live site.

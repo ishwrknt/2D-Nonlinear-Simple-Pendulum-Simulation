@@ -1,0 +1,17 @@
+.comparison-controls {display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0}
+.comparison-controls select {width:auto;max-width:100%}
+.comparison-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px;margin:20px 0}
+.pendulum-card {border-top:5px solid var(--case-color);min-width:0}
+.pendulum-card canvas {display:block;width:100%;max-width:320px;margin:auto}
+.pendulum-card .fields {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pendulum-card .fields label {display:block}
+.pendulum-card input {width:100%;min-width:0}
+.pendulum-card h2 {color:var(--case-color)}
+.comparison-legend {display:flex;flex-wrap:wrap;gap:12px;padding:0;list-style:none}
+.comparison-legend li {border-left:5px solid var(--case-color);padding-left:8px}
+#comparison-graph {width:100%;height:auto;display:block}
+.comparison-table {overflow:auto}
+.comparison-table th,.comparison-table td {padding:10px;text-align:right;white-space:nowrap}
+.comparison-table th:first-child {text-align:left}
+#comparison-notice {min-height:1.5em}
+@media(max-width:600px){.comparison-controls {align-items:stretch}.comparison-controls button{flex:1 1 120px}}
