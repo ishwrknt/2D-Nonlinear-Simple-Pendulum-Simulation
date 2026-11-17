@@ -6,7 +6,7 @@ export default defineConfig({
   fullyParallel: true,
   retries: 0,
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4186",
     trace: "on-first-retry",
     launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
       ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
@@ -14,9 +14,9 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   webServer: {
-    command: "npm run preview -- --host 127.0.0.1 --port 4173",
-    port: 4173,
-    reuseExistingServer: true,
+    command: "npm run preview -- --host 127.0.0.1 --port 4186 --strictPort",
+    port: 4186,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
   projects: [

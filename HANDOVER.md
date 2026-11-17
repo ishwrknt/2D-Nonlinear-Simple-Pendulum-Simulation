@@ -85,3 +85,11 @@ Published application commit 39e3bc78318236afd805b86189252e6778cea11e to main on
 Website: https://ishwrknt.github.io/2D-Nonlinear-Simple-Pendulum-Simulation/
 Comparison: https://ishwrknt.github.io/2D-Nonlinear-Simple-Pendulum-Simulation/compare.html
 Original sastriosks repository and website were not modified. This documentation-only verification commit skips CI; the deployed application remains the tested 39e3bc7 build.
+
+
+## 2026-11-17T17:16:27.440707+00:00 — level-based assessment completed locally
+Resumed interrupted user-requested quiz/certificate implementation. Four pathways: school9 (9–10), school11 (11–12), BSc, MSc. No answer to prior optional level-band/issuer questions was supplied; used these four reasonable bands and generic Nonlinear Pendulum Laboratory heading. 93 bank questions; two required sequential parts of8 each and optional harder6-question Part Three. Questions/options randomized; recent selection avoided where possible. Name/roll/class entered, progress recovered via sessionStorage. Certificate auto-generated only after both mandatory parts and combined score >60% (10/16 minimum); optional marks cannot alter eligibility. Print/PDF and downloadable HTML certificate. Student names escaped; no server collection. Clear-student removes active identity.
+Validation:24 Node tests passed, all186 bank demonstration trajectories finite and energy-consistent; production build passed;19 Chromium tests passed including complete four-pathway flows. One-page landscape certificate visually inspected. Initial browser tests hit unrelated HeartSync server on4173; changed tests to dedicated4186 strictPort, no server reuse. Corrected test comparison of CSS-transformed innerText vs raw textContent; final pass in validation/assessment-browser-tests.log. No modification of unrelated running app.
+Docs:docs/learning-check.md. No assessment deployment performed in this resumed turn; earlier live deployment remains baseline. Updated source/site review archives created.
+
+User authorized Git push and deployment. Target: publish remote ishwrknt/2D-Nonlinear-Simple-Pendulum-Simulation, main branch, existing GitHub Pages workflow. Final local validation:24 Node tests,19 Chromium tests and production build passed. Deployment status pending verification.

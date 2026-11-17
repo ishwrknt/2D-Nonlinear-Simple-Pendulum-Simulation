@@ -77,3 +77,6 @@ Use **Compare pendulums** at the top of the laboratory. Your current physical se
 The shared graph overlays angle, angular velocity, mechanical energy, phase space or position. Animations share one length scale. Comparison links preserve all settings; CSV includes every recorded sample and each pendulum’s parameters in SI units. Full history uses the existing extrema-preserving plot summaries. Browser memory and compute time constrain practical run sizes. Independent pendulums do not interact mechanically.
 
 Validation: 18 physics/data tests and 16 browser tests passed, including synchronization, controlled mass/length comparisons, CSV, shared links, invalid-input handling and four-pendulum mobile layout. After mobile graph refinements, all three comparison browser tests passed again.
+
+## Level-based learning certificates
+The learning check now offers Classes 9–10, Classes 11–12, BSc and MSc pathways from a 93-question bank. Enter name, roll and class, complete two randomized eight-question parts, and score more than60% combined to unlock a printable certificate. An optional six-question harder challenge has a separate score. Progress resumes within the current tab. See docs/learning-check.md for certificate rules, data handling and validation.

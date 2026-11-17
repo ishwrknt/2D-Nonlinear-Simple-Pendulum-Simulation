@@ -1,0 +1,62 @@
+
+> pendulum-animation-codex@0.3.0 test:e2e
+> playwright test
+
+[2m[WebServer] [22m(node:204254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 19 tests using 8 workers
+
+(node:204281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204301) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204287) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204315) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204287) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204301) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204315) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:204288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [chromium] › tests/app.spec.ts:122:1 › dragging bob releases from rest and resets experiment (2.2s)
+  ✓   8 [chromium] › tests/app.spec.ts:74:1 › CSV preserves SI values, parameters and retained interval (2.1s)
+  ✓   7 [chromium] › tests/app.spec.ts:92:1 › shared settings round-trip and invalid settings safely fall back (2.2s)
+  ✓   3 [chromium] › tests/app.spec.ts:109:1 › invalid input blocks playback and preset restores validity (2.4s)
+  ✓   6 [chromium] › tests/app.spec.ts:32:1 › presets, units, numerical settings and physical data views (2.5s)
+  ✓   4 [chromium] › tests/app.spec.ts:17:1 › starts paused; exactly one step, reset and playback (2.7s)
+  ✓  13 [chromium] › tests/compare.spec.ts:41:1 › comparison invalid shared setups fall back safely (234ms)
+  ✓   9 [chromium] › tests/app.spec.ts:197:1 › fluid investigations change density and viscosity independently and share correctly (710ms)
+  ✓   2 [chromium] › tests/app.spec.ts:141:1 › responsive layout and no browser errors (3.2s)
+  ✓  10 [chromium] › tests/app.spec.ts:231:1 › wide physical inputs and new investigations work (1.2s)
+  ✓  12 [chromium] › tests/compare.spec.ts:27:1 › comparison invalid inputs block playback, reset recovers, and mobile supports more than three pendulums (1.2s)
+  ✓  11 [chromium] › tests/compare.spec.ts:2:1 › comparison copies current setup, adds independent pendulums, shares and exports synchronized data (1.7s)
+  ✓  14 [chromium] › tests/quiz.spec.ts:31:3 › school9: identity, sequential randomized parts, certificate and optional challenge (3.8s)
+  ✓  15 [chromium] › tests/quiz.spec.ts:31:3 › school11: identity, sequential randomized parts, certificate and optional challenge (3.7s)
+  ✓  18 [chromium] › tests/quiz.spec.ts:128:1 › below-threshold completion cannot earn a certificate from optional marks; new attempt changes questions (3.1s)
+  ✓  16 [chromium] › tests/quiz.spec.ts:31:3 › bsc: identity, sequential randomized parts, certificate and optional challenge (3.6s)
+  ✓  17 [chromium] › tests/quiz.spec.ts:31:3 › msc: identity, sequential randomized parts, certificate and optional challenge (3.7s)
+  ✓  19 [chromium] › tests/quiz.spec.ts:161:1 › mobile registration validation, one-answer flow, simulation replay and incomplete certificate gate (4.8s)
+  ✓   1 [chromium] › tests/app.spec.ts:167:1 › fit checkbox preserves a full run beyond the former 40-second limit (11.5s)
+
+  19 passed (13.1s)

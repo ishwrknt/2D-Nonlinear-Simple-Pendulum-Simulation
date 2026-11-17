@@ -36,3 +36,5 @@ User review follow-up: made Time axis → Fit all data (compress axis) explicit 
 - [x] User review: expanded numeric domains, Oil label, four contrasting presets, contextual model notes. Evidence: validation/final-tests.log, 16 Node and 10 Chromium tests.
 
 - [x] Student learning check: eight one-at-a-time questions, scoring/feedback, simulation explanations and final review. 17 Node +12 Chromium tests passed; production multi-page build passed.
+
+- [x] Student identity, randomized 93-question bank, four pathways, two sequential required parts, optional harder challenge and strictly >60% certificate. Final evidence: 24 Node tests and 19 Chromium tests; see docs/learning-check.md.

@@ -1,0 +1,36 @@
+
+> pendulum-animation-codex@0.3.0 test:physics
+> node --test tests/*.test.mjs
+
+✔ 93 bank questions have unique IDs, clear keys and finite energy-consistent demonstrations (536.905772ms)
+✔ every pathway samples correct pools, no duplicates and options preserve the correct answer (8.066303ms)
+✔ new attempts change order and choices and avoid the previous draw when enough questions exist (0.312492ms)
+✔ certificates require completed required parts and strictly greater than 60%, never optional marks (8.823982ms)
+✔ first answer locks, resume preserves order and score, invalid or skipped progress is rejected (0.392554ms)
+✔ certificate escapes student input and validates required identity fields (0.27514ms)
+✔ angular: rest and zero-gravity uniform rotation (10.836413ms)
+✔ angular: deterministic and defensive state copies (9.733848ms)
+✔ angular: positive theta initially accelerates left; damping dissipates; forcing acts (12.703059ms)
+✔ angular: angle is continuous through rotations; no false period (3.559196ms)
+✔ angular: dragging and reset agree (2.508054ms)
+✔ cartesian: rest and zero-gravity uniform rotation (6.812055ms)
+✔ cartesian: deterministic and defensive state copies (6.609645ms)
+✔ cartesian: positive theta initially accelerates left; damping dissipates; forcing acts (9.515947ms)
+✔ cartesian: angle is continuous through rotations; no false period (4.782519ms)
+✔ cartesian: dragging and reset agree (2.977794ms)
+✔ coordinate formulations agree over 40 s including all torques (26.895266ms)
+✔ invalid physical parameters fail early (0.524082ms)
+✔ exact period uses correct finite-amplitude assumptions (0.115775ms)
+✔ full history preserves long runs and summaries retain extrema (64.530711ms)
+✔ missing required parameters are rejected (0.122144ms)
+✔ fluid buoyancy, Stokes limit and drag direction have the expected analytical limits (0.606271ms)
+✔ quiz demonstrations support their mass, length, amplitude, neutral and damping answers (42.444798ms)
+✔ advanced explanations agree with simulated thresholds, decay, scaling and energy (73.987528ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 631.410761
