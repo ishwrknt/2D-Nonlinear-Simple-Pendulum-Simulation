@@ -66,7 +66,7 @@ Checks: 16 Node tests, 10 Chromium tests and build passed. Five added preset/exp
 ## Student learning check
 Open quiz.html or use Start the learning check at the end of the laboratory. Eight questions provide one-at-a-time feedback, explanations and paired simulations, followed by a score. See docs/learning-check.md.
 
-## Part Two: advanced challenges
-Open `quiz.html?part=2`, either from the laboratory, the quiz navigation or the Part One result. Eight additional questions cover combined length/gravity scaling, mass-dependent damping, critical versus excessive damping, the rotation energy threshold, radius-dependent buoyancy stability, driven energy balance, nonlinear bottom speed and matched buoyancy with different drag. Each answer locks on submission and reveals feedback, a derivation, and two replayable simulations. Part Two has its own score and restart.
+## Part Two: advanced challenges (after Part One)
+Open `quiz.html` from the laboratory. Complete the eight Part One questions, then continue directly to Part Two without leaving the quiz. Eight additional questions cover combined length/gravity scaling, mass-dependent damping, critical versus excessive damping, the rotation energy threshold, radius-dependent buoyancy stability, driven energy balance, nonlinear bottom speed and matched buoyancy with different drag. Each answer locks on submission and reveals feedback, a derivation, and two replayable simulations. A single final result shows the combined score out of 16 and both part scores. Restart returns to Part One.
 
 The comparison now includes angular velocity, predicted conservative bottom speed, drive work and energy-balance residual. Pendulum panels accommodate motion above the pivot. Advanced content lives in `src/quiz-advanced.ts`. This remains self-study practice; scores are not stored or submitted.

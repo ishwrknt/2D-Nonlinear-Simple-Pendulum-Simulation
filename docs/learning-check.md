@@ -7,8 +7,8 @@ Production build now includes index.html and quiz.html with relative asset paths
 
 Question content and answer keys are editable in src/quiz-questions.ts; presentation and demonstrations in src/quiz.ts. Answer keys are visible in delivered browser source, as appropriate for self-study. Teacher collection of student results is not implemented. Numerical demonstrations use the same documented model and limits as the laboratory. Do not interpret scores as evidence of learning gains without a separate educational study.
 
-## Part Two: advanced challenges
-Open `quiz.html?part=2`, either from the laboratory, the quiz navigation or the Part One result. Eight additional questions cover combined length/gravity scaling, mass-dependent damping, critical versus excessive damping, the rotation energy threshold, radius-dependent buoyancy stability, driven energy balance, nonlinear bottom speed and matched buoyancy with different drag. Each answer locks on submission and reveals feedback, a derivation, and two replayable simulations. Part Two has its own score and restart.
+## Part Two: advanced challenges (after Part One)
+Open `quiz.html` from the laboratory. Complete the eight Part One questions, then continue directly to Part Two without leaving the quiz. Eight additional questions cover combined length/gravity scaling, mass-dependent damping, critical versus excessive damping, the rotation energy threshold, radius-dependent buoyancy stability, driven energy balance, nonlinear bottom speed and matched buoyancy with different drag. Each answer locks on submission and reveals feedback, a derivation, and two replayable simulations. A single final result shows the combined score out of 16 and both part scores. Restart returns to Part One.
 
 The comparison now includes angular velocity, predicted conservative bottom speed, drive work and energy-balance residual. Pendulum panels accommodate motion above the pivot. Advanced content lives in `src/quiz-advanced.ts`. This remains self-study practice; scores are not stored or submitted.
 

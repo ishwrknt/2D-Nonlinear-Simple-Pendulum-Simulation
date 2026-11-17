@@ -1,14 +1,16 @@
 import {test,expect} from '@playwright/test';
-import {questions} from '../src/quiz-questions';
+import {questions as foundationQuestions} from '../src/quiz-questions';
+const questions = [...foundationQuestions, ...advancedQuestions];
 test('laboratory links to quiz; one answer at a time, feedback, simulations and final score',async({page})=>{
  await page.goto('/');await page.getByRole('link',{name:'Start the learning check →'}).click();await expect(page).toHaveURL(/quiz.html$/);await page.clock.install();
  for(let i=0;i<questions.length;i++){
+  await expect(page.locator('h1')).toHaveText(i < 8 ? 'Part One: Foundations' : 'Part Two: Advanced challenges');
   await expect(page.locator('legend')).toHaveText(questions[i].prompt);await expect(page.locator('#next-question')).toHaveCount(0);
   const choice=i===0?(questions[i].correct+1)%questions[i].options.length:questions[i].correct;
   await page.locator(`input[value="${choice}"]`).check();await page.getByRole('button',{name:'Check answer',exact:true}).click();await expect(page.locator('#feedback-title')).toContainText(i===0?'Not quite':'Correct');await expect(page.locator('#answer-feedback')).toContainText(questions[i].options[questions[i].correct]);await expect(page.locator('input[value="0"]')).toBeDisabled();
   await page.click('#demo-play');await page.clock.runFor(600);await expect(page.locator('#demo-values')).not.toContainText('Simulated time: 0.00 s');await page.click('#demo-reset');await expect(page.locator('#demo-values')).toContainText('Simulated time: 0.00 s');await page.click('#next-question');
  }
- await expect(page.getByRole('heading',{name:'Your result: 7 / 8'})).toBeVisible();await page.click('#restart-quiz');await expect(page.locator('legend')).toHaveText(questions[0].prompt);await expect(page.locator('#answer-feedback')).toBeEmpty();
+ await expect(page.getByRole('heading',{name:'Your result: 15 / 16'})).toBeVisible();await page.click('#restart-quiz');await expect(page.locator('legend')).toHaveText(questions[0].prompt);await expect(page.locator('#answer-feedback')).toBeEmpty();
 });
 test('quiz mobile layout, unanswered submission and replay after completion',async({page})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:390,height:844});await page.goto('/quiz.html');await page.clock.install();await page.getByRole('button',{name:'Check answer',exact:true}).click();await expect(page.locator('#feedback-title')).toHaveCount(0);
@@ -17,12 +19,19 @@ test('quiz mobile layout, unanswered submission and replay after completion',asy
 });
 
 import {advancedQuestions} from '../src/quiz-advanced';
-test('advanced part: direct entry, complete feedback flow, simulations, score and restart',async({page})=>{
+test('advanced part follows foundations, complete simulations, combined score and restart',async({page})=>{
  test.setTimeout(120000);
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');await page.getByRole('link',{name:'Part Two: Advanced challenges →',exact:true}).click();
- await expect(page).toHaveURL(/quiz.html\?part=2$/);await expect(page.locator('h1')).toHaveText('Part Two: Advanced challenges');
+ await page.goto('/quiz.html?part=2');
+ await expect(page.locator('h1')).toHaveText('Part One: Foundations');
  await page.setViewportSize({width:390,height:844});await page.clock.install();
+ for (const q of foundationQuestions) {
+  await page.locator(`input[value="${q.correct}"]`).check();
+  await page.getByRole('button',{name:'Check answer',exact:true}).click();
+  await page.click('#next-question');
+ }
+ await expect(page.locator('h1')).toHaveText('Part Two: Advanced challenges');
+ await expect(page.getByRole('heading',{name:/Your result/})).toHaveCount(0);
  for(const [i,q] of advancedQuestions.entries()){
   await expect(page.locator('legend')).toHaveText(q.prompt);
   await expect(page.locator('#next-question')).toHaveCount(0);
@@ -36,7 +45,8 @@ test('advanced part: direct entry, complete feedback flow, simulations, score an
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.click('#demo-reset');await expect(page.locator('#demo-values')).toContainText('Simulated time: 0.00 s');await page.click('#next-question');
  }
- await expect(page.getByRole('heading',{name:'Your result: 7 / 8'})).toBeVisible();
- await page.click('#restart-quiz');await expect(page.locator('legend')).toHaveText(advancedQuestions[0].prompt);
+ await expect(page.getByRole('heading',{name:'Your result: 15 / 16'})).toBeVisible();
+ await expect(page.locator('main')).toContainText('Part One: 8 / 8 · Part Two: 7 / 8');
+ await page.click('#restart-quiz');await expect(page.locator('legend')).toHaveText(foundationQuestions[0].prompt);
  await expect(page.locator('#answer-feedback')).toBeEmpty();expect(errors).toEqual([]);
 });

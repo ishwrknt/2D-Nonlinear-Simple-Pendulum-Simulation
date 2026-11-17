@@ -65,3 +65,8 @@ User requested a harder Part Two and explicitly authorized Git push and deployme
 
 Final Part Two verification: 18 Node physics/data tests passed; 13 browser tests passed using installed Google Chrome through PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH; TypeScript/Vite production build passed; 62 dry and 8 fluid independent reference cases passed. Advanced full-playback browser test has a 120-second budget because it renders all eight 12-second comparisons. Screenshot validation/quiz-part2-preview.png visually reviewed.
 Publishing blocker: gh API reports signed-in ishwrknt has push=false for sastriosks/2D-Nonlinear-Simple-Pendulum-Simulation. User has been asked whether to publish a fork under ishwrknt or obtain write access to the original. No push or deployment has occurred. Do not claim the original public site contains this update.
+
+## 2026-11-17 — Sequential quiz and GitHub fork
+User corrected the flow: Part One must be followed by Part Two in one quiz. quiz.html now presents all 16 questions in order; after question 8, Continue to Part Two retains answers; final results show combined and per-part scores; restart returns to Part One. Separate Part Two links removed. Old ?part=2 links also begin at Part One. User authorized publishing under their account. Created fork ishwrknt/2D-Nonlinear-Simple-Pendulum-Simulation and enabled Actions/Pages workflow deployment. Footer links point to this fork. Local sequential checks and deployment verification in progress.
+
+Sequential flow verified: npm test passed (18 physics/data tests, production build, 13 Chromium browser tests). Both parts run in sequence with score retention, no early result and restart at foundations. Publishing this checked revision to the ishwrknt fork.

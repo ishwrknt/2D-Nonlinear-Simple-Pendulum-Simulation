@@ -4,10 +4,8 @@ import { PendulumEngine } from "./physics";
 import { effectiveGravity } from "./fluid";
 import { questions as foundationQuestions, quizBase } from "./quiz-questions";
 import { advancedQuestions } from "./quiz-advanced";
-const advanced = new URLSearchParams(location.search).get("part") === "2";
-const questions = advanced ? advancedQuestions : foundationQuestions;
-const partTitle = advanced ? "Part Two: Advanced challenges" : "Part One: Foundations";
-document.title = `${partTitle} · Pendulum learning check`;
+const questions = [...foundationQuestions, ...advancedQuestions];
+document.title = "Pendulum learning check · Parts One and Two";
 const app = document.querySelector<HTMLDivElement>("#quiz-app")!;
 const answers: (number | null)[] = questions.map(() => null);
 let index = 0,
@@ -20,7 +18,8 @@ const colors = ["#087e70", "#ad4b25"];
 const get = <T extends HTMLElement = HTMLElement>(id: string) =>
   document.getElementById(id) as T;
 function shell(content: string) {
-  app.innerHTML = `<header><div><p class="eyebrow">Predict · check · explore</p><h1>${partTitle}</h1><p>${questions.length} questions, one at a time. Answer, read the explanation, then test it in motion.</p></div><nav><a href="./">Back to laboratory</a> · <a href="./quiz.html${advanced ? "" : "?part=2"}">${advanced ? "Part One: Foundations" : "Part Two: Advanced challenges"}</a></nav></header><main class="quiz-main">${content}</main>`;
+  const partTitle = index < foundationQuestions.length ? "Part One: Foundations" : "Part Two: Advanced challenges";
+  app.innerHTML = `<header><div><p class="eyebrow">Predict · check · explore</p><h1>${partTitle}</h1><p>${questions.length} questions in order: foundations first, then advanced challenges. Answer, read the explanation, then test it in motion.</p></div><nav><a href="./">Back to laboratory</a></nav></header><main class="quiz-main">${content}</main>`;
 }
 function renderQuestion() {
   playing = false;
@@ -48,7 +47,7 @@ function showExplanation() {
   const q = questions[index],
     correct = answers[index] === q.correct;
   get("answer-feedback").innerHTML =
-    `<div class="feedback ${correct ? "correct" : "incorrect"}"><h2 id="feedback-title" tabindex="-1">${correct ? "Correct" : "Not quite — review the explanation"}</h2><p><strong>Your answer:</strong> ${q.options[answers[index]!]}</p><p><strong>Correct answer:</strong> ${q.options[q.correct]}</p><p>${q.explanation}</p></div><section aria-labelledby="demo-heading"><h2 id="demo-heading">See why: compare the two simulations</h2><p>${q.watch}</p><canvas id="quiz-canvas" width="900" height="570" aria-label="Two pendulum animations and their angle-versus-time traces; numerical evidence is shown below."></canvas><div class="transport"><button id="demo-play">Play comparison</button><button id="demo-reset">Replay from start</button></div><p class="hint">Both panels fit their rods to the same display size. Colours and numbered labels identify each case. Angle traces use a shared scale. The comparison stops at 12 simulated seconds.</p><div id="demo-values"></div><p class="hint">These are numerical model demonstrations. Fluid examples omit added mass, unsteady fluid effects, walls and free surfaces; they are not measured real-fluid results.</p></section><button id="next-question" class="primary">${index === questions.length - 1 ? "See my result" : "Next question"}</button>`;
+    `<div class="feedback ${correct ? "correct" : "incorrect"}"><h2 id="feedback-title" tabindex="-1">${correct ? "Correct" : "Not quite — review the explanation"}</h2><p><strong>Your answer:</strong> ${q.options[answers[index]!]}</p><p><strong>Correct answer:</strong> ${q.options[q.correct]}</p><p>${q.explanation}</p></div><section aria-labelledby="demo-heading"><h2 id="demo-heading">See why: compare the two simulations</h2><p>${q.watch}</p><canvas id="quiz-canvas" width="900" height="570" aria-label="Two pendulum animations and their angle-versus-time traces; numerical evidence is shown below."></canvas><div class="transport"><button id="demo-play">Play comparison</button><button id="demo-reset">Replay from start</button></div><p class="hint">Both panels fit their rods to the same display size. Colours and numbered labels identify each case. Angle traces use a shared scale. The comparison stops at 12 simulated seconds.</p><div id="demo-values"></div><p class="hint">These are numerical model demonstrations. Fluid examples omit added mass, unsteady fluid effects, walls and free surfaces; they are not measured real-fluid results.</p></section><button id="next-question" class="primary">${index === questions.length - 1 ? "See my result" : index === foundationQuestions.length - 1 ? "Continue to Part Two" : "Next question"}</button>`;
   startDemo();
   get("demo-play").addEventListener("click", () => {
     playing = !playing;
@@ -194,8 +193,10 @@ function drawDemo() {
 function showResult() {
   engines = [];
   const score = answers.filter((a, i) => a === questions[i].correct).length;
+  const foundationScore = answers.slice(0, foundationQuestions.length).filter((a, i) => a === foundationQuestions[i].correct).length;
+  const advancedScore = score - foundationScore;
   shell(
-    `<section class="card"><h2>Your result: ${score} / ${questions.length}</h2><p>${score === questions.length ? "All answers were correct. Try designing a new experiment in the laboratory." : "Use the topics below to guide your next experiments. You can restart the practice to check your understanding again."}</p><ol>${questions.map((q, i) => `<li>${q.topic}: <strong>${answers[i] === q.correct ? "Correct" : "Review"}</strong></li>`).join("")}</ol><p><a class="guide-link" href="./quiz.html${advanced ? "" : "?part=2"}">${advanced ? "Revisit Part One" : "Continue to Part Two: Advanced challenges →"}</a></p><button id="restart-quiz">Start again</button> <a href="./">Explore the laboratory</a></section>`,
+    `<section class="card"><h2>Your result: ${score} / ${questions.length}</h2><p>Part One: ${foundationScore} / ${foundationQuestions.length} · Part Two: ${advancedScore} / ${advancedQuestions.length}</p><p>${score === questions.length ? "All answers were correct. Try designing a new experiment in the laboratory." : "Use the topics below to guide your next experiments. You can restart the practice to check your understanding again."}</p><ol>${questions.map((q, i) => `<li>${q.topic}: <strong>${answers[i] === q.correct ? "Correct" : "Review"}</strong></li>`).join("")}</ol><button id="restart-quiz">Start again</button> <a href="./">Explore the laboratory</a></section>`,
   );
   get("restart-quiz").addEventListener("click", () => {
     answers.fill(null);

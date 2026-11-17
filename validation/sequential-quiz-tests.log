@@ -1,0 +1,107 @@
+
+> pendulum-animation-codex@0.3.0 test
+> npm run test:physics && npm run build && npm run test:e2e
+
+
+> pendulum-animation-codex@0.3.0 test:physics
+> node --test tests/physics.test.mjs
+
+✔ angular: rest and zero-gravity uniform rotation (9.554206ms)
+✔ angular: deterministic and defensive state copies (12.849472ms)
+✔ angular: positive theta initially accelerates left; damping dissipates; forcing acts (17.850969ms)
+✔ angular: angle is continuous through rotations; no false period (5.251554ms)
+✔ angular: dragging and reset agree (3.933064ms)
+✔ cartesian: rest and zero-gravity uniform rotation (7.752033ms)
+✔ cartesian: deterministic and defensive state copies (6.583182ms)
+✔ cartesian: positive theta initially accelerates left; damping dissipates; forcing acts (8.480003ms)
+✔ cartesian: angle is continuous through rotations; no false period (5.276516ms)
+✔ cartesian: dragging and reset agree (2.959272ms)
+✔ coordinate formulations agree over 40 s including all torques (26.09283ms)
+✔ invalid physical parameters fail early (0.377815ms)
+✔ exact period uses correct finite-amplitude assumptions (0.085089ms)
+✔ full history preserves long runs and summaries retain extrema (58.939182ms)
+✔ missing required parameters are rejected (0.137607ms)
+✔ fluid buoyancy, Stokes limit and drag direction have the expected analytical limits (0.647272ms)
+✔ quiz demonstrations support their mass, length, amplitude, neutral and damping answers (41.571158ms)
+✔ advanced explanations agree with simulated thresholds, decay, scaling and energy (71.306475ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 367.538243
+
+> pendulum-animation-codex@0.3.0 build
+> tsc && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                      0.50 kB │ gzip:  0.31 kB
+dist/quiz.html                       0.52 kB │ gzip:  0.31 kB
+dist/assets/quiz-1OstpnSQ.css        0.81 kB │ gzip:  0.43 kB
+dist/assets/physics-BX7I9tCK.css     4.68 kB │ gzip:  1.71 kB
+dist/assets/physics-Eu-1lOgD.js      6.93 kB │ gzip:  2.72 kB
+dist/assets/quiz-lnrorP-q.js        22.81 kB │ gzip:  8.62 kB
+dist/assets/laboratory-C-6Bmgb5.js  32.50 kB │ gzip: 12.37 kB
+✓ built in 125ms
+
+> pendulum-animation-codex@0.3.0 test:e2e
+> playwright test
+
+[2m[WebServer] [22m(node:100915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 13 tests using 8 workers
+
+(node:100936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100943) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100937) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100957) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100937) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100943) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100957) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:100976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [chromium] › tests/app.spec.ts:74:1 › CSV preserves SI values, parameters and retained interval (2.2s)
+  ✓   8 [chromium] › tests/app.spec.ts:122:1 › dragging bob releases from rest and resets experiment (2.1s)
+  ✓   2 [chromium] › tests/app.spec.ts:92:1 › shared settings round-trip and invalid settings safely fall back (2.4s)
+  ✓   7 [chromium] › tests/app.spec.ts:109:1 › invalid input blocks playback and preset restores validity (2.3s)
+  ✓   4 [chromium] › tests/app.spec.ts:32:1 › presets, units, numerical settings and physical data views (2.5s)
+  ✓   1 [chromium] › tests/app.spec.ts:17:1 › starts paused; exactly one step, reset and playback (2.8s)
+  ✓   9 [chromium] › tests/app.spec.ts:197:1 › fluid investigations change density and viscosity independently and share correctly (711ms)
+  ✓   3 [chromium] › tests/app.spec.ts:141:1 › responsive layout and no browser errors (3.0s)
+  ✓  10 [chromium] › tests/app.spec.ts:231:1 › wide physical inputs and new investigations work (995ms)
+  ✓  12 [chromium] › tests/quiz.spec.ts:15:1 › quiz mobile layout, unanswered submission and replay after completion (4.3s)
+  ✓  11 [chromium] › tests/quiz.spec.ts:4:1 › laboratory links to quiz; one answer at a time, feedback, simulations and final score (6.0s)
+  ✓   5 [chromium] › tests/app.spec.ts:167:1 › fit checkbox preserves a full run beyond the former 40-second limit (10.9s)
+  ✓  13 [chromium] › tests/quiz.spec.ts:22:1 › advanced part follows foundations, complete simulations, combined score and restart (31.8s)
+
+  13 passed (35.8s)
