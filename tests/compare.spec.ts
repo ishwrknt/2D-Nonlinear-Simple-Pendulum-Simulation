@@ -42,3 +42,14 @@ test('comparison invalid shared setups fall back safely',async({page})=>{
  await page.goto('/compare.html?comparison='+encodeURIComponent(JSON.stringify({dt:1/240,pendulums:[{length:-1}]})));
  await expect(page.locator('#comparison-notice')).toContainText('invalid');await expect(page.locator('#p1-length')).toHaveValue('0.75');
 });
+
+
+test('comparison supports fit-all and scrolling windows without losing history',async({page})=>{
+ await page.goto('/compare.html');await page.clock.install();await expect(page.locator('#comparison-fit-all')).toBeChecked();await expect(page.locator('#comparison-window')).toBeDisabled();
+ await page.locator('#comparison-play').click();await page.clock.runFor(35000);await page.locator('#comparison-play').click();
+ const graph=page.locator('#comparison-graph'),end=Number(await graph.getAttribute('data-end-time'));expect(end).toBeGreaterThan(30);
+ await page.locator('#comparison-fit-all').uncheck();await expect(page.locator('#comparison-window')).toBeEnabled();expect(Number(await graph.getAttribute('data-start-time'))).toBeCloseTo(Number(await graph.getAttribute('data-end-time'))-10,5);
+ await page.locator('#comparison-window').selectOption('30');expect(Number(await graph.getAttribute('data-start-time'))).toBeCloseTo(Number(await graph.getAttribute('data-end-time'))-30,5);
+ await page.locator('#comparison-plot').selectOption('phase');await expect(page.locator('#comparison-caption')).toContainText('last 30 seconds');
+ await page.locator('#comparison-fit-all').check();expect(await graph.getAttribute('data-start-time')).toBe('0');await expect(page.locator('#comparison-caption')).toContainText('starting at 0 s');
+});

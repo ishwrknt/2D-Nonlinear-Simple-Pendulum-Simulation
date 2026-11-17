@@ -40,3 +40,5 @@ User review follow-up: made Time axis → Fit all data (compress axis) explicit 
 - [x] Student identity, randomized 93-question bank, four pathways, two sequential required parts, optional harder challenge and strictly >60% certificate. Final evidence: 24 Node tests and 19 Chromium tests; see docs/learning-check.md.
 
 - [x] User-authorized push/deployment:6d1fdf7; Pages run44140677401 successful; public assessment browser smoke passed.
+
+Comparison graph follow-up: added default checked Fit all data checkbox and Last10/Last30-second scrolling selector, matching main laboratory. Both time series and phase plots respect selected history window. Raw recording/CSV remain full run. Production build passed; comparison regression tests include >30s window switching and return to start at0. User explicitly requested Git push after completion.

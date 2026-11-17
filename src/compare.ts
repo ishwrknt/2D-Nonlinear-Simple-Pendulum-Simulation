@@ -51,7 +51,7 @@ try {
 }
 get('comparison-app').innerHTML = `<header><div><p class="eyebrow">Change one thing · compare the evidence</p><h1>Compare pendulums</h1><p>Add pendulums, change their settings, and watch their curves together.</p></div><a href="./">Back to laboratory</a></header><main>
 <section class="card"><div class="comparison-controls"><button id="add-pendulum" class="primary">+ Add pendulum</button><button id="comparison-play">Play all</button><button id="comparison-step">Step once</button><button id="comparison-reset">Reset all</button><span id="comparison-time" role="status">Time: 0.00 s</span></div><p class="hint">New pendulums copy the last setup so you can change one variable. Editing, adding or removing pauses and resets every pendulum to the same starting time.</p><details><summary>Time step & sharing</summary><label for="comparison-dt">Shared output step (s)</label><select id="comparison-dt"><option value="${1/60}">1/60</option><option value="${1/120}">1/120</option><option value="${1/240}">1/240</option><option value="${1/480}">1/480</option></select><p class="hint">All pendulums use the same clock. Halve the step to check demanding settings.</p><button id="comparison-share">Copy comparison link</button><label for="comparison-link">Comparison link</label><input id="comparison-link" readonly></details><p id="comparison-notice" role="status"></p></section>
-<section class="card" style="margin-top:20px"><h2>One graph, all pendulums</h2><div class="comparison-controls"><label for="comparison-plot">Plot</label><select id="comparison-plot"><option value="theta">Angle θ (rad)</option><option value="omega">Angular velocity ω (rad/s)</option><option value="totalEnergy">Mechanical energy E (J)</option><option value="phase">Phase: ω against θ</option><option value="x">Horizontal position x (m)</option><option value="y">Downward position y (m)</option></select><button id="comparison-export">Download comparison CSV</button></div><ul id="comparison-legend" class="comparison-legend"></ul><canvas id="comparison-graph" width="1000" height="420" aria-label="Overlaid pendulum traces on shared axes. Live numerical values and a downloadable CSV are provided below."></canvas><p id="comparison-caption" class="hint"></p><div id="comparison-values" class="comparison-table"></div></section>
+<section class="card" style="margin-top:20px"><h2>One graph, all pendulums</h2><div class="comparison-controls"><label for="comparison-plot">Plot</label><select id="comparison-plot"><option value="theta">Angle θ (rad)</option><option value="omega">Angular velocity ω (rad/s)</option><option value="totalEnergy">Mechanical energy E (J)</option><option value="phase">Phase: ω against θ</option><option value="x">Horizontal position x (m)</option><option value="y">Downward position y (m)</option></select><label class="comparison-fit"><input id="comparison-fit-all" type="checkbox" checked> Fit all data (compress axis)</label><label for="comparison-window">Scrolling window</label><select id="comparison-window" disabled><option value="10">Last 10 s</option><option value="30">Last 30 s</option></select><button id="comparison-export">Download comparison CSV</button></div><ul id="comparison-legend" class="comparison-legend"></ul><canvas id="comparison-graph" width="1000" height="420" aria-label="Overlaid pendulum traces on shared axes. Live numerical values and a downloadable CSV are provided below."></canvas><p id="comparison-caption" class="hint"></p><div id="comparison-values" class="comparison-table"></div></section>
 <div id="pendulum-cards" class="comparison-grid"></div><p class="hint">Animations use the same length scale across all cards. Very short rods may look small next to long rods; numeric lengths are shown. Graphs use shared axes and retain the full run; identical motions overlap. More pendulums and longer runs need more computing time and memory.</p><p class="hint">Model: massless rigid rod, point-mass dynamics and optional fully immersed sphere drag. Fluid drag is approximate; walls, free surfaces, added mass and fluid memory are omitted. These pendulums are independent, not mechanically coupled.</p><p><a href="./quiz.html">Check your understanding: Part One, then Part Two →</a></p></main>`;
 get<HTMLSelectElement>('comparison-dt').value=String(dt);
 function notice(message: string) { get('comparison-notice').textContent=message; }
@@ -115,7 +115,7 @@ function advance(): boolean {
   catch(error) {resetAll(`Calculation stopped and all runs reset: ${String(error)} Try a smaller time step or less extreme settings.`);return false;}
 }
 get('comparison-step').addEventListener('click',()=>{pause();if(validInputs())advance();draw();});
-get('comparison-plot').addEventListener('change',draw);
+for(const id of ['comparison-plot','comparison-fit-all','comparison-window'])get(id).addEventListener('change',draw);
 get('comparison-share').addEventListener('click',async()=>{
   if(!validInputs())return;
   updateLink();try {await navigator.clipboard.writeText(get<HTMLInputElement>('comparison-link').value);notice('Comparison link copied.');}catch{notice('Select and copy the comparison link shown above.');}
@@ -150,9 +150,15 @@ function draw() {
 }
 function drawGraph() {
   const selection=get<HTMLSelectElement>('comparison-plot').value;
-  const lines=runs.map(r=>({r,points:r.history.plotValues().map(s=>({x:selection==='phase'?s.theta:s.time,y:selection==='phase'?s.omega:s[selection as 'theta'|'omega'|'totalEnergy'|'x'|'y']}))}));
+  const fitAll=get<HTMLInputElement>('comparison-fit-all').checked;
+  const seconds=Number(get<HTMLSelectElement>('comparison-window').value);
+  get<HTMLSelectElement>('comparison-window').disabled=fitAll;
+  const last=runs[0].engine.getState().time;
+  const start=fitAll?0:Math.max(0,last-seconds);
+  const lines=runs.map(r=>({r,points:(fitAll?r.history.plotValues():r.history.window(start,s=>s.time)).map(s=>({x:selection==='phase'?s.theta:s.time,y:selection==='phase'?s.omega:s[selection as 'theta'|'omega'|'totalEnergy'|'x'|'y']}))}));
   let xmin=Infinity,xmax=-Infinity,ymin=Infinity,ymax=-Infinity;
   for(const line of lines)for(const p of line.points){xmin=Math.min(xmin,p.x);xmax=Math.max(xmax,p.x);ymin=Math.min(ymin,p.y);ymax=Math.max(ymax,p.y);}
+  if(selection!=='phase' && !fitAll){xmin=start;xmax=Math.max(last,start+1e-9);}
   if(xmin===xmax)xmax=xmin+1;
   const pad=Math.max((ymax-ymin)*.1,Math.max(Math.abs(ymin),Math.abs(ymax))*.001,1e-5);ymin-=pad;ymax+=pad;
   const canvas=get<HTMLCanvasElement>('comparison-graph');
@@ -172,7 +178,8 @@ function drawGraph() {
   }
   lines.forEach(({r,points})=>{ctx.strokeStyle=color(r.id);ctx.lineWidth=2.5;ctx.setLineDash(dash(r.id));ctx.beginPath();points.forEach((p,i)=>{if(i===0)ctx.moveTo(X(p.x),Y(p.y));else ctx.lineTo(X(p.x),Y(p.y));});ctx.stroke();ctx.setLineDash([]);});
   ctx.fillStyle='#435e53';ctx.textAlign='left';ctx.fillText(get<HTMLSelectElement>('comparison-plot').selectedOptions[0].text,left,22);ctx.textAlign='center';ctx.fillText(selection==='phase'?'Angle θ (rad)':'Time (s)',(left+right)/2,height-8);
-  get('comparison-caption').textContent=`${runs.length} pendulum${runs.length===1?'':'s'} on shared axes. Full run: ${runs[0].history.total.toLocaleString()} samples per pendulum, starting at 0 s. CSV includes every sample. Identical curves overlap; vary one setting to see the difference.`;
+  canvas.dataset.startTime=String(start);canvas.dataset.endTime=String(last);
+  get('comparison-caption').textContent=`${runs.length} pendulum${runs.length===1?'':'s'} on shared axes. ${fitAll?'Fit all data: axis compressed over the full run.':`Showing the last ${seconds} seconds (${start.toFixed(2)}–${last.toFixed(2)} s).`} Full run: ${runs[0].history.total.toLocaleString()} samples per pendulum, starting at 0 s. CSV includes every sample. Identical curves overlap; vary one setting to see the difference.`;
 }
 function frame(now:number) {
   const elapsed=previous?Math.min((now-previous)/1000,.1):0;previous=now;
